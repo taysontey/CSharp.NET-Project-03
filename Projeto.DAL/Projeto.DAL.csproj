@@ -40,6 +40,7 @@
       <HintPath>..\packages\NHibernate.4.0.0.4000\lib\net40\NHibernate.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -48,18 +49,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Generics\GenericDal.cs" />
+    <Compile Include="Generics\IGenericDal.cs" />
     <Compile Include="Mapping\ChamadoMap.cs" />
     <Compile Include="Mapping\ClienteMap.cs" />
     <Compile Include="Mapping\EnderecoMap.cs" />
     <Compile Include="Mapping\FuncionarioMap.cs" />
     <Compile Include="Mapping\TelefoneMap.cs" />
+    <Compile Include="Persistence\ChamadoDal.cs" />
+    <Compile Include="Persistence\ClienteDal.cs" />
+    <Compile Include="Persistence\EnderecoDal.cs" />
+    <Compile Include="Persistence\FuncionarioDal.cs" />
+    <Compile Include="Persistence\TelefoneDal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Util\HibernateUtil.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Generics\" />
-    <Folder Include="Persistence\" />
-    <Folder Include="Util\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>

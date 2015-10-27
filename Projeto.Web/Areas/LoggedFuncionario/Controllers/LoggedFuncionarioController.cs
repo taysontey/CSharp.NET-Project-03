@@ -4,10 +4,11 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace Projeto.Web.Controllers
+namespace Projeto.Web.Areas.LoggedFuncionario.Controllers
 {
-    public class HomeController : Controller
+    public class LoggedFuncionarioController : Controller
     {
+        // GET: LoggedFuncionario/LoggedFuncionario
         public ActionResult Index()
         {
             return View();

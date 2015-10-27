@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Projeto.DAL", "Projeto.DAL\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Projeto.Web", "Projeto.Web\Projeto.Web.csproj", "{6470674E-CA7B-472B-97FC-70EA92D609C2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Projeto.Security", "Projeto.Security\Projeto.Security.csproj", "{621DBB05-5E45-43F6-A1C9-BC7B3D5BBA5D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{6470674E-CA7B-472B-97FC-70EA92D609C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6470674E-CA7B-472B-97FC-70EA92D609C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6470674E-CA7B-472B-97FC-70EA92D609C2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{621DBB05-5E45-43F6-A1C9-BC7B3D5BBA5D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{621DBB05-5E45-43F6-A1C9-BC7B3D5BBA5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{621DBB05-5E45-43F6-A1C9-BC7B3D5BBA5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{621DBB05-5E45-43F6-A1C9-BC7B3D5BBA5D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

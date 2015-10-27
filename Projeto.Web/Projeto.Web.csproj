@@ -80,6 +80,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\Banco.mdf" />
+    <Content Include="App_Data\Banco_log.ldf">
+      <DependentUpon>Banco.mdf</DependentUpon>
+    </Content>
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -92,6 +96,10 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Areas\LoggedCliente\Views\web.config" />
+    <Content Include="Areas\LoggedFuncionario\Views\web.config" />
+    <Content Include="Areas\LoggedCliente\Views\LoggedCliente\Index.cshtml" />
+    <Content Include="Areas\LoggedFuncionario\Views\LoggedFuncionario\Index.cshtml" />
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -99,16 +107,16 @@
     <Content Include="Scripts\jquery-1.9.1.min.js" />
     <Content Include="Web.config" />
     <Content Include="Scripts\jquery-1.9.1.min.map" />
-    <Content Include="Views\Cliente\Login.cshtml" />
-    <Content Include="Views\Funcionario\Login.cshtml" />
-    <Content Include="Views\Funcionario\Cadastro.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Areas\LoggedCliente\Controllers\LoggedClienteController.cs" />
+    <Compile Include="Areas\LoggedCliente\LoggedClienteAreaRegistration.cs" />
+    <Compile Include="Areas\LoggedFuncionario\Controllers\LoggedFuncionarioController.cs" />
+    <Compile Include="Areas\LoggedFuncionario\LoggedFuncionarioAreaRegistration.cs" />
     <Compile Include="Controllers\ClienteController.cs" />
     <Compile Include="Controllers\FuncionarioController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -122,6 +130,9 @@
   <ItemGroup>
     <Content Include="Views\web.config" />
     <Content Include="packages.config" />
+    <Content Include="Views\Usuario\Login.cshtml" />
+    <Content Include="Views\Cliente\Cadastro.cshtml" />
+    <Content Include="Views\Funcionario\Cadastro.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -130,7 +141,24 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
+    <Folder Include="Areas\LoggedCliente\Models\" />
+    <Folder Include="Areas\LoggedCliente\Views\Shared\" />
+    <Folder Include="Areas\LoggedFuncionario\Models\" />
+    <Folder Include="Areas\LoggedFuncionario\Views\Shared\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Projeto.DAL\Projeto.DAL.csproj">
+      <Project>{26b0b877-e564-4d9f-866e-86c0a97f3116}</Project>
+      <Name>Projeto.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Projeto.Entity\Projeto.Entity.csproj">
+      <Project>{9a9387ab-1231-41be-b185-addc5d42ecbf}</Project>
+      <Name>Projeto.Entity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Projeto.Security\Projeto.Security.csproj">
+      <Project>{621dbb05-5e45-43f6-a1c9-bc7b3d5bba5d}</Project>
+      <Name>Projeto.Security</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

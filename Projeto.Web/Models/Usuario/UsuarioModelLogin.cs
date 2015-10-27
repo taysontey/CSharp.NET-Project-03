@@ -16,5 +16,8 @@ namespace Projeto.Web.Models.Usuario
         [DataType(DataType.Password)]
         [Display(Name = "Senha:")]
         public string Senha { get; set; }
+
+        [Display(Name = "Manter conectado.")]
+        public bool ManterConectado { get; set; }
     }
 }

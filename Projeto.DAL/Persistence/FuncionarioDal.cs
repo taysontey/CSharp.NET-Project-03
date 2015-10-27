@@ -33,7 +33,7 @@ namespace Projeto.DAL.Persistence
                 var query = from f
                             in s.Query<Funcionario>()
                             where f.Login.Equals(Login)
-                            select f;
+                            select f.Login;
 
                 return query.Count() > 0;
             }

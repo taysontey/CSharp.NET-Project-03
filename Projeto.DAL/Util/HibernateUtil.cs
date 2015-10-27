@@ -10,6 +10,7 @@ using FluentNHibernate;
 using FluentNHibernate.Cfg;
 using FluentNHibernate.Cfg.Db;
 using Projeto.DAL.Mapping;
+using NHibernate.Tool.hbm2ddl;
 
 namespace Projeto.DAL.Util
 {
@@ -28,6 +29,7 @@ namespace Projeto.DAL.Util
                         .Database(MsSqlConfiguration.MsSql2012.ConnectionString(
                             ConfigurationManager.ConnectionStrings["projeto"].ConnectionString))
                             .Mappings(m => m.FluentMappings.AddFromAssemblyOf<ClienteMap>())
+                            .ExposeConfiguration(cfg => new SchemaUpdate(cfg).Execute(false, true))
                             .BuildSessionFactory();
                 }
 

@@ -9,59 +9,86 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>Login</title>
+    <title>Tela de Login</title>
 
     <link href="~/Content/bootstrap.css" rel="stylesheet" />
     <link href="~/Content/bootstrap-theme.css" rel="stylesheet" />
 
+    <script src="~/Scripts/jquery-1.9.1.js"></script>
+    <script src="~/Scripts/bootstrap.js"></script>
+
+    <script type="text/javascript">
+    $(document).ready(
+        function () {
+
+            $("#btnautenticar_usuario").click(
+                function () {
+                    
+                    var Model = {
+                        Login: $("#login_usuario").val(),
+                        Senha: $("#senha_usuario").val(),
+                        ManterConectado: $("#manter_conectado").is(":checked")
+                    };
+
+                    $.ajax(
+                        {
+                            type: "POST",
+                            url: "/Usuario/AutenticarUsuario",
+                            data: Model,
+                            success: function (json) {
+                                if (json.isRedirect)
+                                {
+                                    window.location.href = json.redirectUrl;
+                                }
+                                else
+                                {
+                                    $("#mensagem_usuario").html(json);
+                                }
+                            },
+                            error: function (e) {
+                                $("#mensagem_usuario").html(e.status);
+                            }
+                        })
+                });
+        });
+    </script>
+
 </head>
-<body class="container">
+<body>
+    <br />
+    <br />
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6 col-md-4 col-md-offset-4">
+                <div class="panel panel-success">
+                    <div class="panel-heading" style="text-align:center">
+                        <h4>Tela de Login</h4>
+                    </div>
+                    <div class="panel-body">
 
-    <h3>Tela de Login</h3>
-    <hr />
-    <a href="/Funcionario/Cadastro" class="text-center new-account" style="float: right;">Cadastrar Funcionário</a>
+                        <label>Login:</label>
+                        <input type="text" id="login_usuario" class="form-control" />
+                        <br />
 
-    @using (Html.BeginForm("AutenticarUsuario", "Usuario", FormMethod.Post))
-    {
-        @Html.AntiForgeryToken()
+                        <label>Senha:</label>
+                        <input type="text" id="senha_usuario" class="form-control" />
+                        <br />
 
-        <div class="form-horizontal">
+                    </div>
+                    <div class="panel-footer">
+                        <input type="checkbox" id="manter_conectado" />
+                        Manter Conectado
 
-            @Html.ValidationSummary(true)
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.Login, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Login)
-                    @Html.ValidationMessageFor(model => model.Login)
+                        <button id="btnautenticar_usuario" style="width:300px" class="btn btn-default">
+                            Entrar
+                        </button>
+                        <hr />
+                        <span id="mensagem_usuario"></span>
+                    </div>
                 </div>
+
             </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.Senha, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Senha)
-                    @Html.ValidationMessageFor(model => model.Senha)
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.CheckBoxFor(model => model.ManterConectado)
-                @Html.LabelFor(model => model.ManterConectado)
-            </div>
-
-
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Entrar" class="btn btn-default" />
-                </div>
-            </div>
-
         </div>
-    }
-
-    <div>
-        @ViewBag.Mensagem
     </div>
 </body>
 </html>

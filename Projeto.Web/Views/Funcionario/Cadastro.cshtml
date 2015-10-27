@@ -1,0 +1,79 @@
+﻿
+@{
+    Layout = null;
+}
+
+@section javascript{
+    <script type="text/javascript">
+        $(document).ready(
+            function () {
+
+                $("#btncadastro_funcionario").click(
+                    function () {
+
+                        var Model = {
+                            Nome: $("#nome_funcionario").val(),
+                            Sobrenome: $("#sobrenome_funcionario").val(),
+                            Login: $("#login_funcionario").val(),
+                            Senha: $("#senha_funcionario").val()
+                        };
+
+                        $.ajax(
+                            {
+                                type: "POST",
+                                url: "/Funcionario/Cadastrar",
+                                data: Model,
+                                success: function (msg) {
+                                    $("#mensagem_funcionario").html(msg);
+                                },
+                                error: function (e) {
+                                    $("#mensagem_funcionario").html(e.status);
+                                }
+                            })
+                    });
+            });
+    </script>
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-6 col-md-4 col-md-offset-4">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    Cadastro de Funcionários
+                </div>
+                <div class="panel-body">
+                    
+                    <label>Nome:</label>
+                    <input type="text" id="nome_funcionario" class="form-control" />
+                    <br />
+                
+                    <label>Sobrenome:</label>
+                    <input type="text" id="sobrenome_funcionario" class="form-control" />
+                    <br />
+                
+                    <label>Login:</label>
+                    <input type="text" id="login_funcionario" class="form-control" />
+                    <br />
+                
+                    <label>Senha:</label>
+                    <input type="text" id="senha_funcionario" class="form-control" />
+                    <br />
+                
+                    <label>Confirme sua Senha:</label>
+                    <input type="text" id="confirm_senha" class="form-control" />
+                    <br />
+
+                </div>
+                <div class="panel-footer">
+                    <button id="btncadastro_funcionario" style="width:300px" class=" btn btn-success">
+                        Cadastrar Funcionário
+                    </button>
+                    <hr />
+                    <span id="mensagem_funcionario"></span>
+                </div>
+            </div>
+            <hr />
+        </div>
+    </div>
+</div>

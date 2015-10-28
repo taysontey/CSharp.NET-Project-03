@@ -39,18 +39,19 @@ namespace Projeto.DAL.Mapping
                 .Not.Nullable();
 
             Map(c => c.Sexo, "SEXO")
-                .CustomType(typeof(Sexo))
+                .Length(10)
                 .Not.Nullable();
 
             #region Relacionamentos
 
             References(c => c.Endereco)
-                .Column("CODENDERECO")
-                .Not.Nullable();
+                .Cascade.All()
+                .Column("CODENDERECO");
 
             HasMany(c => c.Telefones)
                 .KeyColumn("CODCLIENTE")
-                .Inverse();
+                .Inverse()
+                .Cascade.All();
 
             HasMany(c => c.Chamados)
                 .KeyColumn("CODCLIENTE")

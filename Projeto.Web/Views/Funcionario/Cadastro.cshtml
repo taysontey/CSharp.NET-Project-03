@@ -31,7 +31,15 @@
                                     url: "/Funcionario/Cadastrar",
                                     data: Model,
                                     success: function (msg) {
+
                                         $("#mensagem_funcionario").html(msg);
+
+                                        $("#nome_funcionario").val("");
+                                        $("#sobrenome_funcionario").val("");
+                                        $("#login_funcionario").val("");
+                                        $("#senha_funcionario").val("");
+                                        $("#confirm_senha").val("");
+                                       
                                     },
                                     error: function (e) {
                                         $("#mensagem_funcionario").html(e.status);
@@ -43,39 +51,33 @@
 </head>
 <body>
     <br />
-    <br />
     <div class="container">
         <div class="row">
             <div class="col-sm-6 col-md-4 col-md-offset-4">
-                <div class="panel panel-primary">
+                <div class="panel panel-default">
                     <div class="panel-heading">
-                        Cadastro de Funcionários
+                        Dados Pessoais:
                     </div>
                     <div class="panel-body">
-
-                        <label>Nome:</label>
-                        <input type="text" id="nome_funcionario" class="form-control" />
+                       
+                        <input type="text" id="nome_funcionario" class="form-control" placeholder="Nome" />
                         <br />
-
-                        <label>Sobrenome:</label>
-                        <input type="text" id="sobrenome_funcionario" class="form-control" />
+                       
+                        <input type="text" id="sobrenome_funcionario" class="form-control" placeholder="Sobrenome" />
                         <br />
-
-                        <label>Login:</label>
-                        <input type="text" id="login_funcionario" class="form-control" />
+                   
+                        <input type="text" id="login_funcionario" class="form-control" placeholder="Login" />
                         <br />
-
-                        <label>Senha:</label>
-                        <input type="text" id="senha_funcionario" class="form-control" />
+                      
+                        <input type="password" id="senha_funcionario" class="form-control" placeholder="Senha" />
                         <br />
-
-                        <label>Confirme sua Senha:</label>
-                        <input type="text" id="confirm_senha" class="form-control" />
+                       
+                        <input type="password" id="confirm_senha" class="form-control" placeholder="Confirme sua Senha" />
                         <br />
 
                     </div>
                     <div class="panel-footer">
-                        <button id="btncadastro_funcionario" style="width:300px" class=" btn btn-success">
+                        <button id="btncadastro_funcionario" style="width:300px" class=" btn btn-info">
                             Cadastrar Funcionário
                         </button>
                         <hr />

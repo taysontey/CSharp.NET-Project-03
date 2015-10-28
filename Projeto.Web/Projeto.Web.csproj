@@ -98,8 +98,12 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Areas\LoggedCliente\Views\web.config" />
     <Content Include="Areas\LoggedFuncionario\Views\web.config" />
-    <Content Include="Areas\LoggedCliente\Views\LoggedCliente\Index.cshtml" />
-    <Content Include="Areas\LoggedFuncionario\Views\LoggedFuncionario\Index.cshtml" />
+    <Content Include="Areas\LoggedCliente\Views\Shared\_PartialLogin.cshtml" />
+    <Content Include="Areas\LoggedFuncionario\Views\Shared\_PartialLogin.cshtml" />
+    <Content Include="Areas\LoggedCliente\Views\Shared\Layout.cshtml" />
+    <Content Include="Areas\LoggedFuncionario\Views\Shared\Layout.cshtml" />
+    <Content Include="Areas\LoggedCliente\Views\Home\Index.cshtml" />
+    <Content Include="Areas\LoggedFuncionario\Views\Home\Index.cshtml" />
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -110,8 +114,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Areas\LoggedCliente\Controllers\HomeController.cs" />
     <Compile Include="Areas\LoggedCliente\Controllers\LoggedClienteController.cs" />
     <Compile Include="Areas\LoggedCliente\LoggedClienteAreaRegistration.cs" />
+    <Compile Include="Areas\LoggedFuncionario\Controllers\HomeController.cs" />
     <Compile Include="Areas\LoggedFuncionario\Controllers\LoggedFuncionarioController.cs" />
     <Compile Include="Areas\LoggedFuncionario\LoggedFuncionarioAreaRegistration.cs" />
     <Compile Include="Controllers\ClienteController.cs" />
@@ -121,9 +127,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Cliente\ClienteModel.cs" />
-    <Compile Include="Models\Endereco\EnderecoModel.cs" />
     <Compile Include="Models\Funcionario\FuncionarioModel.cs" />
-    <Compile Include="Models\Telefone\TelefoneModel.cs" />
     <Compile Include="Models\Usuario\UsuarioModelLogin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -142,9 +146,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\LoggedCliente\Models\" />
-    <Folder Include="Areas\LoggedCliente\Views\Shared\" />
+    <Folder Include="Areas\LoggedCliente\Views\LoggedCliente\" />
     <Folder Include="Areas\LoggedFuncionario\Models\" />
-    <Folder Include="Areas\LoggedFuncionario\Views\Shared\" />
+    <Folder Include="Areas\LoggedFuncionario\Views\LoggedFuncionario\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Projeto.DAL\Projeto.DAL.csproj">

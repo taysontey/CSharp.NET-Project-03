@@ -38,5 +38,17 @@ namespace Projeto.DAL.Persistence
                 return query.Count() > 0;
             }
         }
+
+        public void AddCliente(Cliente c)
+        {
+            using (ISession s = HibernateUtil.Factory.OpenSession())
+            {
+                using (var t = s.BeginTransaction())
+                {
+                    s.SaveOrUpdate(c);
+                    t.Commit();
+                }
+            }
+        }
     }
 }

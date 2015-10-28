@@ -41,7 +41,8 @@ namespace Projeto.DAL.Mapping
 
             References(e => e.Cliente)
                 .Column("CODCLIENTE")
-                .Not.Nullable();
+                .Unique()
+                .Cascade.All();
 
             #endregion
         }

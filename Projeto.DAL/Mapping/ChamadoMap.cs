@@ -34,7 +34,7 @@ namespace Projeto.DAL.Mapping
                 .Not.Nullable();
 
             Map(c => c.Situacao, "SITUACAO")
-                .CustomType(typeof(Situacao))
+                .Length(10)
                 .Not.Nullable();
 
             Map(c => c.Solucao, "SOLUCAO")
@@ -48,8 +48,7 @@ namespace Projeto.DAL.Mapping
                 .Not.Nullable();
 
             References(c => c.Funcionario)
-                .Column("CODFUNCIONARIO")
-                .Not.Nullable();
+                .Column("CODFUNCIONARIO");
 
             #endregion
         }

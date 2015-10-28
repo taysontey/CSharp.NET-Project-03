@@ -1,18 +1,214 @@
-﻿
-@{
+﻿@{
     Layout = null;
 }
 
-<!DOCTYPE html>
-
-<html>
 <head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Cadastro</title>
+    <title>Tela de Cadastro</title>
+
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-theme.css" rel="stylesheet" />
+
+    <script src="~/Scripts/jquery-1.9.1.js"></script>
+    <script src="~/Scripts/bootstrap.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(
+            function () {
+
+                $("#btncadastro_cliente").click(
+                    function () {
+                        
+                        var Model = {
+                            Nome: $("#nome_cliente").val(),
+                            Sobrenome: $("#sobrenome_cliente").val(),
+                            DataNascimento: $("#data_nascimento").val(),
+                            Sexo: document.getElementById("DropDownSexo").value,
+                            Login: $("#login_cliente").val(),
+                            Senha: $("#senha_cliente").val(),
+                            Logradouro: $("#logradouro").val(),
+                            Bairro: $("#bairro").val(),
+                            CEP: $("#cep").val(),
+                            Cidade: $("#cidade").val(),
+                            Estado: document.getElementById("DropDownEstado").value,
+                            Tipo1: document.getElementById("DropDownTipo1").value,
+                            Numero1: $("#numero1").val(),
+                            Tipo2: document.getElementById("DropDownTipo2").value,
+                            Numero2: $("#numero2").val(),
+                        };
+
+                        $.ajax(
+                            {
+                                type: "POST",
+                                url: "/Cliente/Cadastrar",
+                                data: Model,
+                                success: function (msg) {
+
+                                    $("#mensagem_cliente").html(msg);
+
+                                    $("#nome_cliente").val("");
+                                    $("#sobrenome_cliente").val("");
+                                    $("#data_nascimento").val("");
+                                    document.getElementById("DropDownSexo").selectedIndex = 0;
+                                    $("#login_cliente").val("");
+                                    $("#senha_cliente").val("");
+                                    $("#confirm_senha").val("");
+                                    $("#logradouro").val("");
+                                    $("#bairro").val("");
+                                    $("#cep").val("");
+                                    $("#cidade").val("");
+                                    document.getElementById("DropDownEstado").selectedIndex = 0;
+                                    document.getElementById("DropDownTipo1").selectedIndex = 0;
+                                    $("#numero1").val("");
+                                    document.getElementById("DropDownTipo2").selectedIndex = 0;
+                                    $("#numero2").val("");
+
+                                },
+                                error: function (e) {
+                                    $("#mensagem_cliente").html(e.status);
+                                }
+                            })
+                    });
+            });
+    </script>
 </head>
+
 <body>
-    <div> 
-        <h3>testeingsfg</h3>
+    <br />
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Dados Pessoais:
+                    </div>
+
+                    <div class="panel-body">
+
+                        <input type="text" id="nome_cliente" class="form-control" placeholder="Nome" />
+                        <br />
+
+                        <input type="text" id="sobrenome_cliente" class="form-control" placeholder="Sobrenome" />
+                        <br />
+
+                        <input type="text" id="data_nascimento" class="form-control" onfocus="(this.type='date')" onblur="(this.type='text')" placeholder="Data de Nascimento" />
+                        <br />
+
+                        <select id="DropDownSexo">
+                            <option disabled selected>-Selecione seu sexo- </option>
+                            <option value="Masculino">Masculino</option>
+                            <option value="Feminino">Feminino</option>
+                        </select>
+
+                        <hr />
+                        <br />
+                        <input type="text" id="login_cliente" class="form-control" placeholder="Login" />
+                        <br />
+
+                        <input type="password" id="senha_cliente" class="form-control" placeholder="Senha" />
+                        <br />
+
+                        <input type="password" id="confirm_senha" class="form-control" placeholder="Confirme sua Senha" />
+                        <br />
+
+                    </div>
+
+                    <div class="panel-footer">
+                        <button id="btncadastro_cliente" style="width:300px" class=" btn btn-info">
+                            Cadastrar Cliente
+                        </button>
+                        <hr />
+                        <span id="mensagem_cliente"></span>
+                    </div>
+                </div>
+                <a href="/Usuario/Login">Voltar</a>
+                <hr />
+            </div>
+
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Endereço:
+                    </div>
+
+                    <div class="panel-body">
+
+                        <input type="text" id="logradouro" class="form-control" placeholder="Logradouro" />
+                        <br />
+
+                        <input type="text" id="bairro" class="form-control" placeholder="Bairro" />
+                        <br />
+
+                        <input type="text" id="cep" class="form-control" placeholder="CEP" />
+                        <br />
+
+                        <input type="text" id="cidade" class="form-control" placeholder="Cidade" />
+                        <br />
+
+                        <select id="DropDownEstado">
+                            <option disabled selected>-Escolha o Estado-</option>
+                            <option value="AC">Acre</option>
+                            <option value="AL">Alagoas</option>
+                            <option value="AP">Amapá</option>
+                            <option value="AM">Amazonas</option>
+                            <option value="BA">Bahia</option>
+                            <option value="CE">Ceará</option>
+                            <option value="DF">Distrito Federal</option>
+                            <option value="ES">Espirito Santo</option>
+                            <option value="GO">Goiás</option>
+                            <option value="MA">Maranhão</option>
+                            <option value="MT">Mato Grosso</option>
+                            <option value="MS">Mato Grosso do Sul</option>
+                            <option value="MG">Minas Gerais</option>
+                            <option value="PA">Pará</option>
+                            <option value="PB">Paraiba</option>
+                            <option value="PR">Paraná</option>
+                            <option value="PE">Pernambuco</option>
+                            <option value="PI">Piauí</option>
+                            <option value="RJ">Rio de Janeiro</option>
+                            <option value="RN">Rio Grande do Norte</option>
+                            <option value="RS">Rio Grande do Sul</option>
+                            <option value="RO">Rondônia</option>
+                            <option value="RR">Roraima</option>
+                            <option value="SC">Santa Catarina</option>
+                            <option value="SP">São Paulo</option>
+                            <option value="SE">Sergipe</option>
+                            <option value="TO">Tocantis</option>
+                        </select>
+                        <br />
+
+                    </div>
+
+                    <div class="panel-heading">
+                        Telefones:
+                    </div>
+
+                    <div class="panel-body">
+
+                        <select id="DropDownTipo1">
+                            <option value="Residencial">Residencial</option>
+                            <option value="Comercial">Comercial</option>
+                            <option value="Celular">Celular</option>
+                        </select>
+                        <br />
+                        <br />
+
+                        <input type="text" id="numero1" class="form-control" placeholder="Número" />
+                        <br />
+
+                        <select id="DropDownTipo2">
+                            <option value="Residencial">Residencial</option>
+                            <option value="Comercial">Comercial</option>
+                            <option value="Celular">Celular</option>
+                        </select>
+                        <br />
+                        <br />
+
+                        <input type="text" id="numero2" class="form-control" placeholder="Número" />
+                        <br />
+
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
-</html>

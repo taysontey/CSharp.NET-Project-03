@@ -22,14 +22,14 @@ namespace Projeto.DAL.Mapping
                 .Not.Nullable();
 
             Map(t => t.Tipo, "TIPO")
-                .CustomType(typeof(Tipo))
+                .Length(12)
                 .Not.Nullable();
 
             #region Relacionamentos
 
             References(t => t.Cliente)
                 .Column("CODCLIENTE")
-                .Not.Nullable();
+                .Cascade.All();
 
             #endregion
         }

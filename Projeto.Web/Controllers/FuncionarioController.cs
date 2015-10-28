@@ -12,12 +12,7 @@ using Projeto.Security.Security;
 namespace Projeto.Web.Controllers
 {
     public class FuncionarioController : Controller
-    {
-        public ActionResult Logout()
-        {
-            return View();
-        }
-
+    {       
         [AllowAnonymous]
         public ActionResult Cadastro()
         {
@@ -31,6 +26,7 @@ namespace Projeto.Web.Controllers
             try
             {
                 FuncionarioDal d = new FuncionarioDal();
+
                 if(!d.HasLogin(model.Login))
                 { 
                     Funcionario f = new Funcionario();

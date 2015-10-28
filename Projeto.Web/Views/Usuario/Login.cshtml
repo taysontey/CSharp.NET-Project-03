@@ -18,75 +18,85 @@
     <script src="~/Scripts/bootstrap.js"></script>
 
     <script type="text/javascript">
-    $(document).ready(
-        function () {
+        $(document).ready(
+            function () {
 
-            $("#btnautenticar_usuario").click(
-                function () {
-                    
-                    var Model = {
-                        Login: $("#login_usuario").val(),
-                        Senha: $("#senha_usuario").val(),
-                        ManterConectado: $("#manter_conectado").is(":checked")
-                    };
+                $("#btnautenticar_usuario").click(
+                    function () {
 
-                    $.ajax(
-                        {
-                            type: "POST",
-                            url: "/Usuario/AutenticarUsuario",
-                            data: Model,
-                            success: function (json) {
-                                if (json.isRedirect)
-                                {
-                                    window.location.href = json.redirectUrl;
+                        var Model = {
+                            Login: $("#login_usuario").val(),
+                            Senha: $("#senha_usuario").val(),
+                            ManterConectado: $("#manter_conectado").is(":checked")
+                        };
+
+                        $.ajax(
+                            {
+                                type: "POST",
+                                url: "/Usuario/AutenticarUsuario",
+                                data: Model,
+                                success: function (json) {
+                                    if (json.isRedirect) {
+                                        window.location.href = json.redirectUrl;
+                                    }
+                                    else {
+                                        $("#mensagem_usuario").html(json);
+                                    }
+                                },
+                                error: function (e) {
+                                    $("#mensagem_usuario").html(e.status);
                                 }
-                                else
-                                {
-                                    $("#mensagem_usuario").html(json);
-                                }
-                            },
-                            error: function (e) {
-                                $("#mensagem_usuario").html(e.status);
-                            }
-                        })
-                });
-        });
+                            })
+                    });
+            });
+
     </script>
 
 </head>
+
 <body>
     <br />
     <br />
     <div class="container">
         <div class="row">
-            <div class="col-sm-6 col-md-4 col-md-offset-4">
-                <div class="panel panel-success">
+            <div class="col-sm-6 col-md-5 col-md-offset-3">
+                <div class="panel panel-default">
                     <div class="panel-heading" style="text-align:center">
-                        <h4>Tela de Login</h4>
+                        <h4>Login de Usuários</h4>
                     </div>
                     <div class="panel-body">
 
-                        <label>Login:</label>
-                        <input type="text" id="login_usuario" class="form-control" />
+                        <input type="text" name="login" id="login_usuario" class="form-control" placeholder="Login" required />
                         <br />
 
-                        <label>Senha:</label>
-                        <input type="text" id="senha_usuario" class="form-control" />
+                        <input type="password" name="senha" id="senha_usuario" class="form-control" placeholder="Senha" required />
                         <br />
 
                     </div>
                     <div class="panel-footer">
-                        <input type="checkbox" id="manter_conectado" />
-                        Manter Conectado
-
-                        <button id="btnautenticar_usuario" style="width:300px" class="btn btn-default">
+                        <div class="col-md-7">
+                            <input type="checkbox" id="manter_conectado" />
+                            <i>Manter Conectado.</i>
+                        </div>
+                        <button id="btnautenticar_usuario" style="width:150px" class="btn btn-info">
                             Entrar
                         </button>
                         <hr />
-                        <span id="mensagem_usuario"></span>
+
+                        <div class="col-md-7">
+                            Não possui um login?
+                        </div>
+                        <div class="col-md-5">
+                            <a href="/Funcionario/Cadastro">Cadastrar Funcionário</a>
+
+                            <a href="/Cliente/Cadastro">Cadastrar Cliente</a>
+                        </div>
+                        <br />
+                        <br />
                     </div>
                 </div>
-
+                <hr />
+                <span id="mensagem_usuario"></span>
             </div>
         </div>
     </div>

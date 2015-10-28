@@ -17,8 +17,7 @@ namespace Projeto.Entity.Entities
         public virtual ICollection<Telefone> Telefones { get; set; }
         public virtual ICollection<Chamado> Chamados { get; set; }
 
-        #endregion
-
+        #endregion       
     }
 
     public enum Sexo

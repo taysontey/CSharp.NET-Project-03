@@ -1,0 +1,16 @@
+﻿@using Projeto.Entity.Entities
+@{
+    if (Session["clientelogado"] != null)
+    {
+        Cliente c = (Cliente)Session["clientelogado"];
+
+        <div class="container">
+            <div class="row">
+
+                <label>Nome:</label> @c.Nome <br />
+                <label>Login: </label> @c.Login <br />
+
+            </div>
+        </div>
+    }
+}

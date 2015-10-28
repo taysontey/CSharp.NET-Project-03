@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using Projeto.Web.Models.Endereco;
-using Projeto.Web.Models.Telefone;
 
 namespace Projeto.Web.Models.Cliente
 {
@@ -14,19 +12,18 @@ namespace Projeto.Web.Models.Cliente
         public string Login { get; set; }
         public string Senha { get; set; }
         public DateTime DataNascimento { get; set; }
-        public Sexo Sexo { get; set; }
-
-        #region Relacionamentos
-
-        public EnderecoModelCadastro Endereco { get; set; }
-        public ICollection<TelefoneModelCadastro> Telefones { get; set; }
-
-        #endregion
+        public string Sexo { get; set; }
+        public string Logradouro { get; set; }
+        public string Bairro { get; set; }
+        public string Cidade { get; set; }
+        public string Estado { get; set; }
+        public string CEP { get; set; }
+        public string Numero1 { get; set; }
+        public string Tipo1 { get; set; }
+        public string Numero2 { get; set; }
+        public string Tipo2 { get; set; }
+  
     }
 
-    public enum Sexo
-    {
-        Masculino,
-        Feminino
-    }        
+          
 }

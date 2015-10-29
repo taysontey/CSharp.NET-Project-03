@@ -22,10 +22,9 @@ namespace Projeto.DAL.Mapping
                 .Not.Nullable();
 
             Map(c => c.DataFechamento, "DATAFECHAMENTO")
-                .CustomType("date")
-                .Not.Nullable();
-
-            Map(c => c.Tipo, "TIPO")
+                .CustomType("date");
+                
+            Map(c => c.Assunto, "ASSUNTO")
                 .Length(40)
                 .Not.Nullable();
 
@@ -38,9 +37,8 @@ namespace Projeto.DAL.Mapping
                 .Not.Nullable();
 
             Map(c => c.Solucao, "SOLUCAO")
-                .Length(200)
-                .Not.Nullable();
-
+                .Length(200);
+                
             #region Relacionamentos
 
             References(c => c.Cliente)

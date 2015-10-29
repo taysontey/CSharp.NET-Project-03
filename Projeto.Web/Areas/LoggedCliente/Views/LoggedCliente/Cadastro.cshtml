@@ -1,0 +1,70 @@
+﻿
+@{
+    ViewBag.Title = "Cadastro";
+    Layout = "~/Areas/LoggedCliente/Views/Shared/Layout.cshtml";
+}
+
+@section javascript{
+    <script type="text/javascript">
+        $(document).ready(
+            function () {
+
+                $("#btnabrir_chamado").click(
+                    function () {
+                        
+                        var Model = {
+                            Assunto: $("#assunto_chamado").val(),
+                            Descricao: $("#desc_chamado").val()
+                        };
+
+                        $.ajax(
+                            {
+                                type: "POST",
+                                url: "../LoggedCliente/AbrirChamado",
+                                data: Model,
+                                success: function (msg) {
+                                    $("#mensagem_chamado").html(msg);
+
+                                    $("#assunto_chamado").val("")
+                                    $("#desc_chamado").val("")
+                                },
+                                error: function (e) {
+                                    $("#mensagem_chamado").html(e.status);
+                                }
+                            })
+                    });
+            });
+    </script>
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-6 col-md-8">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Abertura de Chamados
+                </div>
+                <div class="panel-body">
+                    <label>Assunto:</label>
+                    <input type="text" id="assunto_chamado" class="form-control" />
+                    <br />
+
+                    <label>Descrição:</label>
+                    <textarea id="desc_chamado" rows="10" cols="100"></textarea>
+                    
+                    <br />
+                </div>
+                <div class="panel-footer" style="text-align:right">
+                    <button id="btnabrir_chamado" style="width:200px" class=" btn btn-info">
+                        Abrir Chamado
+                    </button>
+                    <hr />
+                    <span id="mensagem_chamado"></span>
+                </div>
+            </div>
+            <hr />
+        </div>
+    </div>
+</div>
+
+

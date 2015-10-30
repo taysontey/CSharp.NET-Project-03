@@ -19,4 +19,16 @@ namespace Projeto.Web.Areas.LoggedCliente.Models
 
         #endregion
     }
+
+    public class ChamadoModelEdicao
+    {
+        public int IdChamado { get; set; }
+        public string Assunto { get; set; }
+        public string Descricao { get; set; }
+    }
+
+    public class ChamadoModelDelete
+    {
+        public int IdChamado { get; set; }
+    }
 }

@@ -43,7 +43,7 @@ namespace Projeto.DAL.Persistence
         {
             using (ISession s = HibernateUtil.Factory.OpenSession())
             {
-                using (var t = s.BeginTransaction())
+                using (ITransaction t = s.BeginTransaction())
                 {
                     s.SaveOrUpdate(c);
                     t.Commit();

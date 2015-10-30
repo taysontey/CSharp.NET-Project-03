@@ -33,6 +33,20 @@ namespace Projeto.DAL.Generics
             }
         }
 
+        public void DeleteById(object id)
+        {
+            using (ISession s = HibernateUtil.Factory.OpenSession())
+            using (ITransaction t = s.BeginTransaction())
+            {
+                var queryString = string.Format("delete {0} where id = :id", typeof(TEntity));
+                s.CreateQuery(queryString)
+                       .SetParameter("id", id)
+                       .ExecuteUpdate();
+
+                t.Commit();
+            }
+        }
+
         public List<TEntity> FindAll()
         {
             using (ISession s = HibernateUtil.Factory.OpenSession())

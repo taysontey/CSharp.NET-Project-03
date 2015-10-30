@@ -20,7 +20,7 @@ namespace Projeto.DAL.Mapping
             Map(c => c.DataAbertura, "DATAABERTURA")
                 .CustomType("date")
                 .Not.Nullable();
-
+            
             Map(c => c.DataFechamento, "DATAFECHAMENTO")
                 .CustomType("date");
                 

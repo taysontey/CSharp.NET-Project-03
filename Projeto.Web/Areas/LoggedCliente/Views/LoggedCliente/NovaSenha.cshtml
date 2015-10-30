@@ -1,0 +1,74 @@
+﻿
+@{
+    ViewBag.Title = "NovaSenha";
+    Layout = "~/Areas/LoggedCliente/Views/Shared/Layout.cshtml";
+}
+
+@section javascript{
+    <script type="text/javascript">
+        $(document).ready(
+            function () {
+
+                $("#btnalterar_senha").click(
+                    function () {
+
+                        var Model = {
+                            OldSenha: $("#old_senha").val(),
+                            NewSenha: $("#new_senha").val(),
+                            ConfirmSenha: $("#confirm_senha").val()
+                        };
+
+                        $.ajax(
+                            {
+                                type: "POST",
+                                url: "../LoggedCliente/AlterarSenha",
+                                data: Model,
+                                success: function (msg) {
+
+                                    $("#mensagem_senha").html(msg);
+
+                                    $("#old_senha").val("")
+                                    $("#new_senha").val("")
+                                    $("#confirm_senha").val("")
+                                },
+                                error: function (e) {
+                                    $("#mensagem_senha").html(e.status);
+                                }
+                            })
+                    });
+            });
+    </script>
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-6 col-md-4 col-lg-offset-4">
+            <div class="panel panel-default">
+                <div class="panel-heading" style="text-align:center">
+                    Alteração de Senha
+                </div>
+                <div class="panel-body">
+                    
+                    <input type="password" id="old_senha" class="form-control" placeholder="Senha Atual" />
+                    <br />
+
+                    <input type="password" id="new_senha" class="form-control" placeholder="Nova Senha" />
+                    <br />
+
+                    <input type="password" id="confirm_senha" class="form-control" placeholder="Digite Novamente" />
+                    <br />
+                    
+                </div>
+                <div class="panel-footer" style="text-align:right">
+                    <button id="btnalterar_senha" style="width:150px" class=" btn btn-info glyphicon glyphicon-ok">
+                        Concluir
+                    </button>
+                    <hr />
+                    <span id="mensagem_senha"></span>
+                </div>
+            </div>
+            <hr />
+        </div>
+    </div>
+</div>
+

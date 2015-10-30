@@ -26,6 +26,35 @@ namespace Projeto.DAL.Persistence
             }
         }
 
+        public bool CheckPassword(string Senha)
+        {
+            using(ISession s = HibernateUtil.Factory.OpenSession())
+            {
+                var query = from c
+                            in s.Query<Cliente>()
+                            where c.Senha.Equals(Senha)
+                            select c;
+
+                return query.Count() > 0;
+            }
+        }
+
+        public void UpdatePassword(int Id, string Senha)
+        {
+            using (ISession s = HibernateUtil.Factory.OpenSession())
+            {
+                ITransaction t = s.BeginTransaction();
+
+                var query = s.CreateQuery("update Cliente set SENHA=:val1 where CODCLIENTE=:val2");
+
+                query.SetParameter("val1", Senha);
+                query.SetParameter("val2", Id);
+                query.ExecuteUpdate();
+
+                t.Commit();
+            }
+        }
+
         public bool HasLogin(string Login)
         {
             using (ISession s = HibernateUtil.Factory.OpenSession())

@@ -8,6 +8,7 @@ using Projeto.Web.Models.Usuario;
 using Projeto.Entity.Entities;
 using Projeto.DAL.Persistence;
 using Projeto.Web.Areas.LoggedCliente.Models;
+using Projeto.Security.Security;
 
 
 namespace Projeto.Web.Areas.LoggedCliente.Controllers
@@ -26,25 +27,31 @@ namespace Projeto.Web.Areas.LoggedCliente.Controllers
         }
 
         [Authorize]
-        public ActionResult Cadastro()
+        public ActionResult CadastroChamado()
         {
             return View();
         }
 
         [Authorize]
-        public ActionResult Lista()
+        public ActionResult ListaChamado()
         {
             return View();
         }
 
-        #region Metodos AJAX
+        [Authorize]
+        public ActionResult NovaSenha()
+        {
+            return View();
+        }
+
+        #region Metodos AJAX(Chamado)
 
         public JsonResult AbrirChamado(ChamadoModelCadastro model)
         {
             try
             {
                 Cliente c = (Cliente)Session["clientelogado"];
-                
+
                 Chamado ch = new Chamado();
                 ch.DataAbertura = DateTime.Now;
                 ch.Assunto = model.Assunto;
@@ -64,7 +71,7 @@ namespace Projeto.Web.Areas.LoggedCliente.Controllers
             }
         }
 
-        public JsonResult Edicao(ChamadoModelEdicao model)
+        public JsonResult EdicaoChamado(ChamadoModelEdicao model)
         {
             try
             {
@@ -82,7 +89,7 @@ namespace Projeto.Web.Areas.LoggedCliente.Controllers
             }
         }
 
-        public JsonResult Editar(ChamadoModelEdicao model)
+        public JsonResult EditarChamado(ChamadoModelEdicao model)
         {
             try
             {
@@ -92,7 +99,7 @@ namespace Projeto.Web.Areas.LoggedCliente.Controllers
                 ch.IdChamado = model.IdChamado;
                 ch.Assunto = model.Assunto;
                 ch.Descricao = model.Descricao;
-                
+
                 ChamadoDal d = new ChamadoDal();
 
                 d.Update(ch);
@@ -105,7 +112,7 @@ namespace Projeto.Web.Areas.LoggedCliente.Controllers
             }
         }
 
-        public JsonResult Listar()
+        public JsonResult ListarChamado()
         {
             try
             {
@@ -116,7 +123,7 @@ namespace Projeto.Web.Areas.LoggedCliente.Controllers
                 var list = d.FindAllByCliente(c);
 
                 return Json(list);
-                
+
             }
             catch (Exception e)
             {
@@ -124,7 +131,7 @@ namespace Projeto.Web.Areas.LoggedCliente.Controllers
             }
         }
 
-        public JsonResult Excluir(ChamadoModelDelete model)
+        public JsonResult ExcluirChamado(ChamadoModelDelete model)
         {
             try
             {
@@ -133,8 +140,42 @@ namespace Projeto.Web.Areas.LoggedCliente.Controllers
                 ChamadoDal d = new ChamadoDal();
 
                 d.DeleteById(model.IdChamado);
-                
+
                 return Json("Chamado excluído.");
+            }
+            catch (Exception e)
+            {
+                return Json(e.Message);
+            }
+        }
+
+        #endregion
+
+        #region Metodos AJAX(Cliente)
+
+        public JsonResult AlterarSenha(ClienteModelSenha model)
+        {
+            try
+            {
+                Cliente c = (Cliente)Session["clientelogado"];
+
+                ClienteDal d = new ClienteDal();
+                if (model.NewSenha.Equals(model.ConfirmSenha))
+                {
+                    if (d.CheckPassword(Criptografia.GetMD5Hash(model.OldSenha)))
+                    {
+                        d.UpdatePassword(c.IdUsuario, Criptografia.GetMD5Hash(model.NewSenha));
+                        return Json("Senha atualizada.");
+                    }
+                    else
+                    {
+                        return Json("Senha atual incorreta.");
+                    }
+                }
+                else
+                {
+                    return Json("As senhas não correspondem.");
+                }
             }
             catch (Exception e)
             {

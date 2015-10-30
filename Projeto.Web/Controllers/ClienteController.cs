@@ -37,7 +37,7 @@ namespace Projeto.Web.Controllers
                     c.Login = model.Login;
                     c.Senha = Criptografia.GetMD5Hash(model.Senha);
                     c.DataNascimento = model.DataNascimento;
-                    c.Sexo = (Sexo)Enum.Parse(typeof(Sexo), model.Sexo);
+                    c.Sexo = model.Sexo;
 
                     d.AddCliente(c);
 
@@ -55,13 +55,13 @@ namespace Projeto.Web.Controllers
                     Telefone t1 = new Telefone();
                     
                     t1.Numero = model.Numero1;
-                    t1.Tipo = (Tipo)Enum.Parse(typeof(Tipo), model.Tipo1);
+                    t1.Tipo = model.Tipo1;
                     t1.Cliente = c;
 
                     Telefone t2 = new Telefone();
 
                     t2.Numero = model.Numero2;
-                    t2.Tipo = (Tipo)Enum.Parse(typeof(Tipo), model.Tipo2);
+                    t2.Tipo = model.Tipo2;
                     t2.Cliente = c;
 
                     List<Telefone> lista = new List<Telefone>();

@@ -33,7 +33,7 @@ namespace Projeto.DAL.Generics
             }
         }
 
-        public ICollection<TEntity> FindAll()
+        public List<TEntity> FindAll()
         {
             using (ISession s = HibernateUtil.Factory.OpenSession())
             {

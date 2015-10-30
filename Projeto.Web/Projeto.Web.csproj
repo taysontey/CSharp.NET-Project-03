@@ -105,6 +105,7 @@
     <Content Include="Areas\LoggedCliente\Views\Home\Index.cshtml" />
     <Content Include="Areas\LoggedFuncionario\Views\Home\Index.cshtml" />
     <Content Include="Areas\LoggedCliente\Views\LoggedCliente\Cadastro.cshtml" />
+    <Content Include="Areas\LoggedCliente\Views\LoggedCliente\Lista.cshtml" />
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />

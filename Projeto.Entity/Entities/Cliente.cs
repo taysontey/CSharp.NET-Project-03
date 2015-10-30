@@ -9,7 +9,7 @@ namespace Projeto.Entity.Entities
     public class Cliente : Usuario
     {
         public virtual DateTime DataNascimento { get; set; }
-        public virtual Sexo Sexo { get; set; }
+        public virtual string Sexo { get; set; }
 
         #region Relacionamentos
 
@@ -18,11 +18,5 @@ namespace Projeto.Entity.Entities
         public virtual ICollection<Chamado> Chamados { get; set; }
 
         #endregion       
-    }
-
-    public enum Sexo
-    {
-        Masculino,
-        Feminino
     }
 }

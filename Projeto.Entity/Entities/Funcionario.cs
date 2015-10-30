@@ -12,7 +12,7 @@ namespace Projeto.Entity.Entities
 
         #region Relacionamentos
 
-        public virtual ICollection<Chamado> Chamados { get; set; }
+        public virtual List<Chamado> Chamados { get; set; }
 
         #endregion
     }

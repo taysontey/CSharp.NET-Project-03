@@ -13,7 +13,7 @@ namespace Projeto.Entity.Entities
         public virtual DateTime DataFechamento { get; set; }
         public virtual string Assunto { get; set; }
         public virtual string Descricao { get; set; }
-        public virtual Situacao Situacao { get; set; }
+        public virtual string Situacao { get; set; }
         public virtual string Solucao { get; set; }
 
         #region Relacionamentos
@@ -22,11 +22,6 @@ namespace Projeto.Entity.Entities
         public virtual Funcionario Funcionario { get; set; }
 
         #endregion
-    }
 
-    public enum Situacao
-    {
-        Aberto,
-        Fechado
-    }
+    }  
 }

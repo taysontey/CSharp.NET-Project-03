@@ -11,7 +11,7 @@ namespace Projeto.DAL.Generics
     {
         void SaveOrUpdate(TEntity obj);
         void Delete(TEntity obj);
-        ICollection<TEntity> FindAll();
+        List<TEntity> FindAll();
         TEntity FindById(int Id);
     }
 }

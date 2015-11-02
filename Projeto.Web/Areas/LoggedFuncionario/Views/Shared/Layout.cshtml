@@ -1,0 +1,52 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Sistema de Chamados</title>
+
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-theme.css" rel="stylesheet" />
+
+    <script src="~/Scripts/jquery-1.9.1.js"></script>
+    <script src="~/Scripts/bootstrap.js"></script>
+
+    @RenderSection("javascript", required: false)
+
+</head>
+<body>
+
+    <div class="container">
+        <div class="row">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3>Sistema de Chamados</h3>
+                    @Html.Partial("_PartialLogin")
+                </div>
+                <ul class="nav nav-tabs">
+                    <li>
+                        <a href="@Url.Action("Index", "Home")">Home</a>
+                    </li>
+
+                    <li>
+                        <a href="@Url.Action("Cadastro", "LoggedCliente")">Abrir Chamado</a>
+                    </li>
+
+                    <li>
+                        <a href="@Url.Action("Lista", "LoggedCliente")">Listar Chamados</a>
+                    </li>
+
+                    <li class="nav navbar-nav navbar-right">
+                        <a href="@Url.Action("Logout", "LoggedFuncionario")"><span class="glyphicon glyphicon-log-out"></span> Sair</a>
+                    </li>
+
+                    <li class="nav navbar-nav navbar-right">
+                        <a href="#"><span class="glyphicon glyphicon-edit"></span> Editar Conta</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    @RenderBody()
+</body>
+</html>

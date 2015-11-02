@@ -1,0 +1,239 @@
+﻿@{
+    ViewBag.Title = "ListaChamado";
+    Layout = "~/Areas/LoggedCliente/Views/Shared/Layout.cshtml";
+}
+
+@section javascript{
+
+    <script type="text/javascript">
+
+        $(document).ready(
+            function Load() {
+
+                function formatData(jsonDateString) {
+                    var data = new Date(parseInt(jsonDateString.replace('/Date(', '')));
+                    var localData = data.toLocaleDateString();
+                    return localData;
+                }
+
+                $.ajax(
+                    {
+                        type: "POST",
+                        url: "../LoggedCliente/ListarChamado",
+                        success: function (lista) {
+
+                            if (lista[0] != null) {
+
+                                var dados = "";
+
+                                for (var i = 0; i < lista.length; i++) {
+
+                                    dados += "<tr>";
+                                    dados += "<td align='center'>" + lista[i].IdChamado + "</td>";
+                                    dados += "<td align='center'>" + lista[i].Assunto + "</td>";
+                                    dados += "<td align='center'>" + lista[i].Situacao + "</td>";
+                                    dados += "<td align='center'>" + formatData(lista[i].DataAbertura) + "</td>";
+                                    dados += "<td>" + '<a  class="btn btn-info glyphicon glyphicon-edit" onclick="editFunction(\'' + lista[i].IdChamado + '\')">' + " Editar" + "</a>" + " " +
+                                                      '<a  class="btn btn-danger glyphicon glyphicon-remove"  onclick="deleteFunction(\'' + lista[i].IdChamado + '\');" >' + " Excluir" + "</a>" + "</td>";
+                                    dados += "</tr>";
+                                }
+
+                                $("#lista_chamado tbody").empty();
+                                $("#lista_chamado tbody").append(dados);
+                                $("#mensagem_pesquisa").html("");
+
+                            }
+                            else {
+
+                                $("#mensagem_pesquisa").html("Nenhum Chamado encontrado.");
+                                $("#lista_chamado tbody").empty();
+                            }
+                        },
+                        error: function (e) {
+                            $("#mensagem_pesquisa").html(e.status);
+                        }
+                    });
+            });
+
+        function deleteFunction(id) {
+
+            $('#confirm_delete').modal('show');
+
+            $("#btndelete_yes").click(
+                function () {
+
+                    var dados =
+                        {
+                            IdChamado: id
+                        };
+
+                    $.ajax(
+                        {
+
+                            type: "POST",
+                            url: "../LoggedCliente/ExcluirChamado",
+                            data: dados,
+                            success: function (msg) {
+
+                                $('#confirm_delete').modal('hide');
+                                location.reload();
+                            },
+                            error: function (e) {
+
+                                $("#mensagem_pesquisa").html(e.status);
+                            }
+                        });
+                });
+
+            $("#btndelete_no").click(
+                function () {
+                    $('#confirm_delete').modal('hide');
+                });
+        }
+
+        function editFunction(Id) {
+
+
+            $('#janela_edicao').modal('show');
+
+            var Model = {
+                IdChamado: Id
+            }
+
+            console.log(Id);
+
+            $.ajax(
+                        {
+                            type: "POST",
+                            url: "../LoggedCliente/EdicaoChamado",
+                            data: Model,
+                            success: function (lista) {
+
+                                $("#assunto_chamado").val(lista.Assunto);
+                                $("#desc_chamado").val(lista.Descricao);
+
+                            },
+                            error: function (e) {
+                                $("#mensagem_pesquisa").html(e.status);
+                            }
+                        })
+
+            $("#btnedicao_chamado").click(
+                function () {
+
+                    var Model = {
+                        IdChamado: Id,
+                        Assunto: $("#assunto_chamado").val(),
+                        Descricao: $("#desc_chamado").val()
+                    };
+
+                    $.ajax(
+                        {
+                            type: "POST",
+                            url: "../LoggedCliente/EditarChamado",
+                            data: Model,
+                            success: function (msg) {
+
+                                $('#janela_edicao').modal('hide');
+                                location.reload();
+                            },
+                            error: function (e) {
+                                $("#mensagem_pesquisa").html(e.status);
+                            }
+                        })
+
+                });
+        }
+
+    </script>
+}
+
+<div class="container">
+    <div class="row" style="text-align:center">
+        <p>
+            <h4>Lista de Chamados</h4>
+        </p>
+        <br />
+        <div class="col-md-12">
+
+            <span id="mensagem_pesquisa"></span>
+
+            <table id="lista_chamado" class="table table-hover">
+                <thead>
+                    <tr>
+                        <th style="text-align:center">Código</th>
+                        <th style="text-align:center">Assunto</th>
+                        <th style="text-align:center">Situação</th>
+                        <th style="text-align:center">Data de Abertura</th>
+                        <th style="text-align:center">Opções</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="info">
+                        <td align="center">Não há dados para exibir.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div id="janela_edicao" class="modal fade">
+    <div class="modal-dialog">
+        <div class="col-md-12">
+            <div class="modal-content">
+
+                <div class="modal-header bg-info" style="text-align:center">
+                    <h3>Edição de Chamados</h3>
+                </div>
+
+                <div class="modal-body">
+
+                    <label>Assunto:</label>
+                    <input type="text" id="assunto_chamado" class="form-control" />
+                    <br />
+
+                    <label>Descrição:</label>
+                    <textarea id="desc_chamado" rows="10" cols="73" style="overflow:auto;resize:none"></textarea>
+                    <br />
+
+                </div>
+
+                <div class="modal-footer">
+
+                    <button id="btnedicao_chamado" class="btn btn-info glyphicon glyphicon-ok">
+                        Concluir
+                    </button>
+                    <hr />
+                    <span id="mensagem_edicao"></span>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="confirm_delete" class="modal fade">
+    <div class="modal-dialog modal-sm">
+        <div class="col-md-12">
+            <div class="modal-content">
+
+                <div class="modal-header bg-info" style="text-align:center">
+                    <h3>Excluir Chamado?</h3>
+                </div>
+
+                <div class="modal-footer" style="text-align:center">
+
+                    <button id="btndelete_yes" class="btn btn-info glyphicon glyphicon-ok">
+                        Sim
+                    </button>
+
+                    <button id="btndelete_no" class="btn btn-danger glyphicon glyphicon-remove">
+                        Não
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

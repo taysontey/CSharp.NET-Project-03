@@ -25,8 +25,7 @@ namespace Projeto.DAL.Persistence
                                 IdChamado = ch.IdChamado,
                                 Assunto = ch.Assunto,
                                 Situacao = ch.Situacao,
-                                DataAbertura = ch.DataAbertura,
-                                Descricao = ch.Descricao
+                                DataAbertura = ch.DataAbertura    
                             };
 
                 return query.ToList();
@@ -46,22 +45,49 @@ namespace Projeto.DAL.Persistence
                                 Assunto = ch.Assunto,
                                 Descricao = ch.Descricao
                             };
+
                 return query.FirstOrDefault();
             }
         }
 
         public void Update(Chamado ch)
         {
+            using(ISession s = HibernateUtil.Factory.OpenSession())
+            {
+                ITransaction t = s.BeginTransaction();
+
+                var query = from c
+                            in s.Query<Chamado>()
+                            where c.IdChamado.Equals(ch.IdChamado)
+                            select c;
+
+                foreach(Chamado chamado in query)
+                {
+                    chamado.Assunto = ch.Assunto;
+                    chamado.Descricao = ch.Descricao;
+
+                    s.Update(chamado);
+                }
+
+                t.Commit();
+            }
+        }
+      
+        public void DeleteById(int id)
+        {
             using (ISession s = HibernateUtil.Factory.OpenSession())
             {
                 ITransaction t = s.BeginTransaction();
 
-                var query = s.CreateQuery("update Chamado set ASSUNTO=:val1, DESCRICAO=:val2 where CODCHAMADO=:val3");
-
-                query.SetParameter("val1", ch.Assunto);
-                query.SetParameter("val2", ch.Descricao);
-                query.SetParameter("val3", ch.IdChamado);
-                query.ExecuteUpdate();
+                var query = from c
+                            in s.Query<Chamado>()
+                            where c.IdChamado.Equals(id)
+                            select c;
+                
+                foreach(Chamado chamado in query)
+                {
+                    s.Delete(chamado);
+                }
 
                 t.Commit();
             }

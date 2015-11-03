@@ -41,16 +41,14 @@ namespace Projeto.Web.Controllers
 
                     d.AddCliente(c);
 
-                    Endereco e = new Endereco();
+                    c.Endereco = new Endereco();
 
-                    e.Logradouro = model.Logradouro;
-                    e.Bairro = model.Bairro;
-                    e.Cidade = model.Cidade;
-                    e.Estado = model.Estado;
-                    e.CEP = model.CEP;
-                    e.Cliente = c;
-
-                    c.Endereco = e;
+                    c.Endereco.Logradouro = model.Logradouro;
+                    c.Endereco.Bairro = model.Bairro;
+                    c.Endereco.Cidade = model.Cidade;
+                    c.Endereco.Estado = model.Estado;
+                    c.Endereco.CEP = model.CEP;
+                    c.Endereco.Cliente = c;
 
                     Telefone t1 = new Telefone();
                     
@@ -64,13 +62,10 @@ namespace Projeto.Web.Controllers
                     t2.Tipo = model.Tipo2;
                     t2.Cliente = c;
 
-                    List<Telefone> lista = new List<Telefone>();
-
-                    lista.Add(t1);
-                    lista.Add(t2);
-
-                    c.Telefones = lista;
-
+                    c.Telefones = new List<Telefone>();
+                    c.Telefones.Add(t1);
+                    c.Telefones.Add(t2);
+                    
                     d.SaveOrUpdate(c);
 
                     return Json("Cliente cadastrado com sucesso.");

@@ -164,7 +164,8 @@ namespace Projeto.Web.Areas.LoggedCliente.Controllers
                 {
                     if (d.CheckPassword(Criptografia.GetMD5Hash(model.OldSenha)))
                     {
-                        d.UpdatePassword(c.IdUsuario, Criptografia.GetMD5Hash(model.NewSenha));
+                        c.Senha = Criptografia.GetMD5Hash(model.NewSenha);
+                        d.UpdatePassword(c);
                         return Json("Senha atualizada.");
                     }
                     else

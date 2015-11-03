@@ -28,7 +28,7 @@ namespace Projeto.DAL.Persistence
 
         public bool CheckPassword(string Senha)
         {
-            using(ISession s = HibernateUtil.Factory.OpenSession())
+            using (ISession s = HibernateUtil.Factory.OpenSession())
             {
                 var query = from c
                             in s.Query<Cliente>()
@@ -39,17 +39,22 @@ namespace Projeto.DAL.Persistence
             }
         }
 
-        public void UpdatePassword(int Id, string Senha)
+        public void UpdatePassword(Cliente c)
         {
             using (ISession s = HibernateUtil.Factory.OpenSession())
             {
                 ITransaction t = s.BeginTransaction();
 
-                var query = s.CreateQuery("update Cliente set SENHA=:val1 where CODCLIENTE=:val2");
+                var query = from cli
+                            in s.Query<Cliente>()
+                            where cli.IdUsuario.Equals(c.IdUsuario)
+                            select cli;
 
-                query.SetParameter("val1", Senha);
-                query.SetParameter("val2", Id);
-                query.ExecuteUpdate();
+                foreach (Cliente cliente in query)
+                {
+                    cliente.Senha = c.Senha;
+                    s.Update(cliente);
+                }
 
                 t.Commit();
             }
@@ -72,11 +77,10 @@ namespace Projeto.DAL.Persistence
         {
             using (ISession s = HibernateUtil.Factory.OpenSession())
             {
-                using (ITransaction t = s.BeginTransaction())
-                {
-                    s.SaveOrUpdate(c);
-                    t.Commit();
-                }
+                ITransaction t = s.BeginTransaction();
+
+                s.SaveOrUpdate(c);
+                t.Commit();
             }
         }
     }

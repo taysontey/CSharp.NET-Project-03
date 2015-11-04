@@ -32,6 +32,27 @@ namespace Projeto.DAL.Persistence
             }
         }
 
+        public List<Chamado> FindAllChamado()
+        {
+            using (ISession s = HibernateUtil.Factory.OpenSession())
+            {
+                
+                var query = from ch
+                            in s.Query<Chamado>()
+                            select new Chamado
+                            {
+                                IdChamado = ch.IdChamado,
+                                Assunto = ch.Assunto,
+                                Descricao = ch.Descricao,
+                                Situacao = ch.Situacao,
+                                DataAbertura = ch.DataAbertura,
+                                Cliente = ch.Cliente
+                            };
+
+                return query.ToList();
+            }
+        }
+
         public Chamado FindById(int Id)
         {
             using(ISession s = HibernateUtil.Factory.OpenSession())

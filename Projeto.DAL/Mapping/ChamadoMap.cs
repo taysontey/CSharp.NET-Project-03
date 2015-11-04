@@ -43,6 +43,7 @@ namespace Projeto.DAL.Mapping
 
             References(c => c.Cliente)
                 .Column("CODCLIENTE")
+                .Not.LazyLoad()
                 .Not.Nullable();
 
             References(c => c.Funcionario)

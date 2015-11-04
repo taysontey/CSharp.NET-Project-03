@@ -23,27 +23,35 @@
                     <h3>Sistema de Chamados</h3>
                     @Html.Partial("_PartialLogin")
                 </div>
-                <ul class="nav nav-tabs">
-                    <li>
-                        <a href="@Url.Action("Index", "Home")">Home</a>
-                    </li>
+                <nav>
+                    <div class="container-fluid">
+                        <ul class="nav nav-tabs">
+                            <li>
+                                <a href="@Url.Action("Index", "Home")"><span class="glyphicon glyphicon-home"></span> Home</a>
+                            </li>
+                            
+                            <li>
+                                <a href="@Url.Action("ConsultarChamado", "LoggedFuncionario")"><span class="glyphicon glyphicon-search"></span> Consultar Chamados</a>
+                            </li>                           
 
-                    <li>
-                        <a href="@Url.Action("Cadastro", "LoggedCliente")">Abrir Chamado</a>
-                    </li>
+                            <li>
+                                <a href="@Url.Action("ListaChamado", "LoggedFuncionario")"><span class="glyphicon glyphicon-th-list"></span> Listar Chamados</a>
+                            </li>
 
-                    <li>
-                        <a href="@Url.Action("Lista", "LoggedCliente")">Listar Chamados</a>
-                    </li>
+                            <li class="nav navbar-nav navbar-right">
+                                <a href="@Url.Action("Logout", "LoggedFuncionario")"><span class="glyphicon glyphicon-log-out"></span> Sair</a>
+                            </li>
 
-                    <li class="nav navbar-nav navbar-right">
-                        <a href="@Url.Action("Logout", "LoggedFuncionario")"><span class="glyphicon glyphicon-log-out"></span> Sair</a>
-                    </li>
+                            <li class="nav navbar-nav navbar-right">
+                                <a href="@Url.Action("NovaSenha", "LoggedFuncionario")"><span class="glyphicon glyphicon-edit"></span> Alterar Senha</a>
+                            </li>
 
-                    <li class="nav navbar-nav navbar-right">
-                        <a href="#"><span class="glyphicon glyphicon-edit"></span> Editar Conta</a>
-                    </li>
-                </ul>
+                        </ul>
+
+
+                    </div>
+
+                </nav>
             </div>
         </div>
     </div>

@@ -23,7 +23,7 @@ namespace Projeto.DAL.Mapping
             
             Map(c => c.DataFechamento, "DATAFECHAMENTO")
                 .CustomType("date");
-                
+
             Map(c => c.Assunto, "ASSUNTO")
                 .Length(40)
                 .Not.Nullable();

@@ -32,68 +32,6 @@ namespace Projeto.DAL.Persistence
             }
         }
 
-        public List<Chamado> FindAllChamado()
-        {
-            using (ISession s = HibernateUtil.Factory.OpenSession())
-            {
-                
-                var query = from ch
-                            in s.Query<Chamado>()
-                            select new Chamado
-                            {
-                                IdChamado = ch.IdChamado,
-                                Assunto = ch.Assunto,
-                                Descricao = ch.Descricao,
-                                Situacao = ch.Situacao,
-                                DataAbertura = ch.DataAbertura,
-                                Cliente = ch.Cliente
-                            };
-
-                return query.ToList();
-            }
-        }
-
-        public Chamado FindById(int Id)
-        {
-            using(ISession s = HibernateUtil.Factory.OpenSession())
-            {
-                var query = from ch
-                            in s.Query<Chamado>()
-                            where ch.IdChamado.Equals(Id)
-                            select new Chamado
-                            {
-                                IdChamado = ch.IdChamado,
-                                Assunto = ch.Assunto,
-                                Descricao = ch.Descricao
-                            };
-
-                return query.FirstOrDefault();
-            }
-        }
-
-        public void Update(Chamado ch)
-        {
-            using(ISession s = HibernateUtil.Factory.OpenSession())
-            {
-                ITransaction t = s.BeginTransaction();
-
-                var query = from c
-                            in s.Query<Chamado>()
-                            where c.IdChamado.Equals(ch.IdChamado)
-                            select c;
-
-                foreach(Chamado chamado in query)
-                {
-                    chamado.Assunto = ch.Assunto;
-                    chamado.Descricao = ch.Descricao;
-
-                    s.Update(chamado);
-                }
-
-                t.Commit();
-            }
-        }
-      
         public void DeleteById(int id)
         {
             using (ISession s = HibernateUtil.Factory.OpenSession())

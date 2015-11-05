@@ -8,7 +8,7 @@
     <script type="text/javascript">
 
         $(document).ready(
-            function Load() {
+            function () {
 
                 function formatData(jsonDateString) {
                     var data = new Date(parseInt(jsonDateString.replace('/Date(', '')));
@@ -34,7 +34,7 @@
                                     dados += "<td align='center'>" + lista[i].Situacao + "</td>";
                                     dados += "<td align='center'>" + formatData(lista[i].DataAbertura) + "</td>";
                                     dados += "<td>" + '<a  class="btn btn-info glyphicon glyphicon-edit" onclick="editFunction(\'' + lista[i].IdChamado + '\')">' + " Editar" + "</a>" + " " +
-                                                      '<a  class="btn btn-danger glyphicon glyphicon-remove"  onclick="deleteFunction(\'' + lista[i].IdChamado + '\');" >' + " Excluir" + "</a>" + "</td>";
+                                                      '<a  class="btn btn-danger glyphicon glyphicon-trash"  onclick="deleteFunction(\'' + lista[i].IdChamado + '\');" >' + " Excluir" + "</a>" + "</td>";
                                     dados += "</tr>";
                                 }
 
@@ -76,7 +76,12 @@
                             success: function (msg) {
 
                                 $('#confirm_delete').modal('hide');
-                                location.reload();
+                                $("#mensagem_pesquisa").html(msg);
+
+                                window.setTimeout(
+                                    function () {
+                                        location.reload()
+                                    }, 3000)                              
                             },
                             error: function (e) {
 
@@ -96,11 +101,11 @@
 
             $('#janela_edicao').modal('show');
 
+            $('#id_chamado').attr('value', Id);
+
             var Model = {
                 IdChamado: Id
             }
-
-            console.log(Id);
 
             $.ajax(
                         {
@@ -109,20 +114,21 @@
                             data: Model,
                             success: function (lista) {
 
+                                $("#id_chamado").val(lista.IdChamado);
                                 $("#assunto_chamado").val(lista.Assunto);
-                                $("#desc_chamado").val(lista.Descricao);
+                                $("#desc_chamado").val(lista.Descricao);                          
 
                             },
                             error: function (e) {
                                 $("#mensagem_pesquisa").html(e.status);
                             }
                         })
-
+            console.log();
             $("#btnedicao_chamado").click(
                 function () {
 
                     var Model = {
-                        IdChamado: Id,
+                        IdChamado: $("#id_chamado").val(),
                         Assunto: $("#assunto_chamado").val(),
                         Descricao: $("#desc_chamado").val()
                     };
@@ -135,7 +141,7 @@
                             success: function (msg) {
 
                                 $('#janela_edicao').modal('hide');
-                                location.reload();
+                                location.reload();      
                             },
                             error: function (e) {
                                 $("#mensagem_pesquisa").html(e.status);
@@ -197,6 +203,8 @@
                     <textarea id="desc_chamado" rows="10" cols="73" style="overflow:auto;resize:none"></textarea>
                     <br />
 
+                    <input type="hidden" id="id_chamado" value="" class="form-control" />
+
                 </div>
 
                 <div class="modal-footer">
@@ -205,8 +213,6 @@
                         Concluir
                     </button>
                     <hr />
-                    <span id="mensagem_edicao"></span>
-
                 </div>
             </div>
         </div>

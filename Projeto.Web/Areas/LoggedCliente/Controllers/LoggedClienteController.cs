@@ -79,9 +79,15 @@ namespace Projeto.Web.Areas.LoggedCliente.Controllers
 
                 ChamadoDal d = new ChamadoDal();
 
-                var list = d.FindById(model.IdChamado);
+                Chamado chamado = d.FindById(model.IdChamado);
 
-                return Json(list);
+                Chamado ch = new Chamado();
+
+                ch.IdChamado = chamado.IdChamado;
+                ch.Assunto = chamado.Assunto;
+                ch.Descricao = chamado.Descricao;
+
+                return Json(ch, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
@@ -95,14 +101,14 @@ namespace Projeto.Web.Areas.LoggedCliente.Controllers
             {
                 Cliente c = (Cliente)Session["clientelogado"];
 
-                Chamado ch = new Chamado();
-                ch.IdChamado = model.IdChamado;
-                ch.Assunto = model.Assunto;
-                ch.Descricao = model.Descricao;
-
                 ChamadoDal d = new ChamadoDal();
 
-                d.Update(ch);
+                Chamado chamado = d.FindById(model.IdChamado);
+
+                chamado.Assunto = model.Assunto;
+                chamado.Descricao = model.Descricao;
+
+                d.SaveOrUpdate(chamado);
 
                 return Json("Chamado Atualizado.");
             }
@@ -138,10 +144,19 @@ namespace Projeto.Web.Areas.LoggedCliente.Controllers
                 Cliente c = (Cliente)Session["clientelogado"];
 
                 ChamadoDal d = new ChamadoDal();
+                Chamado ch = d.FindById(model.IdChamado);
 
-                d.DeleteById(model.IdChamado);
+                if (ch.Situacao == "Aberto")
+                {
+                    d.DeleteById(model.IdChamado);
 
-                return Json("Chamado excluído.");
+                    return Json("Chamado excluído.");
+                }
+                else
+                {
+                    return Json("Chamado não pode ser excluído, o mesmo já se encontra fechado.");
+                }
+
             }
             catch (Exception e)
             {

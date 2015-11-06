@@ -31,5 +31,18 @@ namespace Projeto.DAL.Persistence
                 return query.ToList();
             }
         }
+
+        public List<Chamado> FindAllBySituacao(string Situacao)
+        {
+            using (ISession s = HibernateUtil.Factory.OpenSession())
+            {
+                var query = from ch
+                            in s.Query<Chamado>()
+                            where ch.Situacao == (Situacao)
+                            select ch;
+
+                return query.ToList();
+            }
+        }
     }
 }

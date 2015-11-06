@@ -32,12 +32,18 @@ namespace Projeto.Web.Areas.LoggedFuncionario.Controllers
         }
 
         [Authorize]
+        public ActionResult ConsultaChamado()
+        {
+            return View();
+        }
+
+        [Authorize]
         public ActionResult NovaSenha()
         {
             return View();
         }
 
-        #region Metodos AJAX
+        #region Metodos AJAX (Chamado)
 
         public JsonResult EdicaoChamado(ChamadoModelEdicao model)
         {
@@ -74,14 +80,22 @@ namespace Projeto.Web.Areas.LoggedFuncionario.Controllers
 
                 Chamado chamado = d.FindById(model.IdChamado);
 
-                chamado.Solucao = model.Solucao;
-                chamado.Situacao = "Fechado";
-                chamado.DataFechamento = DateTime.Now;
-                chamado.Funcionario = f;
+                if(chamado.Situacao == "Aberto")
+                {
+                    chamado.Solucao = model.Solucao;
+                    chamado.Situacao = "Fechado";
+                    chamado.DataFechamento = DateTime.Now;
+                    chamado.Funcionario = f;
 
-                d.SaveOrUpdate(chamado);
+                    d.SaveOrUpdate(chamado);
 
-                return Json("Chamado Atualizado.");
+                    return Json("Chamado Atualizado.");
+                }
+                else
+                {
+                    return Json("Esse chamado já foi fechado.");
+                }
+                
             }
             catch (Exception e)
             {
@@ -117,6 +131,72 @@ namespace Projeto.Web.Areas.LoggedFuncionario.Controllers
                 }
 
                 return Json(list);
+            }
+            catch (Exception e)
+            {
+                return Json(e.Message);
+            }
+        }
+
+        #endregion
+
+        #region Consultas (Chamado)
+
+        public JsonResult ConsultarChamado_ID(ChamadoModelConsulta model)
+        {
+            try
+            {
+                ChamadoDal d = new ChamadoDal();
+
+                Chamado chamado = d.FindById(model.IdChamado);
+
+                Chamado ch = new Chamado();
+
+                ch.IdChamado = chamado.IdChamado;
+                ch.Assunto = chamado.Assunto;
+                ch.Situacao = chamado.Situacao;
+                ch.DataAbertura = chamado.DataAbertura;
+
+                ch.Cliente = new Cliente();
+                ch.Cliente.Nome = chamado.Cliente.Nome;
+
+                List<Chamado> list = new List<Chamado>();
+                list.Add(ch);
+
+                return Json(list, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                return Json(e.Message);
+            }
+        }
+
+        public JsonResult ConsultarChamado_Situacao(ChamadoModelConsulta model)
+        {
+            try
+            {
+                ChamadoDal d = new ChamadoDal();
+                
+                List<Chamado> lista = d.FindAllBySituacao(model.Situacao);
+
+                List<Chamado> list = new List<Chamado>();
+
+                foreach(Chamado chamado in lista)
+                {
+                    Chamado ch = new Chamado();
+
+                    ch.IdChamado = chamado.IdChamado;
+                    ch.Assunto = chamado.Assunto;
+                    ch.Situacao = chamado.Situacao;
+                    ch.DataAbertura = chamado.DataAbertura;
+
+                    ch.Cliente = new Cliente();
+                    ch.Cliente.Nome = chamado.Cliente.Nome;
+
+                    list.Add(ch);
+                }
+
+                return Json(list, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {

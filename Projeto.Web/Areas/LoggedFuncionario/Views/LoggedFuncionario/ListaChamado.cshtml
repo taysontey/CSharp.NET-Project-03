@@ -76,8 +76,7 @@
                                 $("#id_chamado").val(lista.IdChamado);
                                 $("#assunto_chamado").val(lista.Assunto);
                                 $("#desc_chamado").val(lista.Descricao);
-                                $("#solucao_chamado").val(lista.Solucao);
-
+                                $("#solucao_chamado").val(lista.Solucao);     
                             },
                             error: function (e) {
                                 $("#mensagem_pesquisa").html(e.status);
@@ -100,7 +99,12 @@
                             success: function (msg) {
 
                                 $('#janela_edicao').modal('hide');
-                                location.reload();
+                                $("#mensagem_pesquisa").html(msg);
+
+                                window.setTimeout(
+                                    function () {
+                                        location.reload()
+                                    }, 5000)
                             },
                             error: function (e) {
                                 $("#mensagem_pesquisa").html(e.status);
@@ -156,13 +160,13 @@
             <div class="modal-content">
 
                 <div class="modal-header bg-info" style="text-align:center">
-                    <h3>Chamado Número: <input id="id_chamado" style="width:50px;text-align:center" disabled class="form-inline" /></h3>
+                    <h4>Chamado Número: <input id="id_chamado" style="width:50px;text-align:center" disabled class="form-inline" /></h4>
                 </div>
 
                 <div class="modal-body">
 
                     <label>Assunto:</label>
-                    <input type="text" id="assunto_chamado" class="form-control" readonly/>
+                    <input type="text" id="assunto_chamado" class="form-control" readonly />
                     <br />
 
                     <label>Descrição:</label>

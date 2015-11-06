@@ -108,6 +108,7 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Areas\LoggedCliente\Views\LoggedCliente\NovaSenha.cshtml" />
     <Content Include="Areas\LoggedFuncionario\Views\LoggedFuncionario\ListaChamado.cshtml" />
+    <Content Include="Areas\LoggedFuncionario\Views\LoggedFuncionario\ConsultaChamado.cshtml" />
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />

@@ -1,0 +1,230 @@
+﻿@{
+    ViewBag.Title = "ConsultaChamado";
+    Layout = "~/Areas/LoggedFuncionario/Views/Shared/Layout.cshtml";
+}
+
+@section javascript{
+
+    <script type="text/javascript">
+
+        $(document).ready(
+            function () {
+
+                function formatData(jsonDateString) {
+                    var data = new Date(parseInt(jsonDateString.replace('/Date(', '')));
+                    var localData = data.toLocaleDateString();
+                    return localData;
+                }
+
+                $("#btnpesquisa_chamado").click(
+                    function () {
+
+                        var Model = {
+                            IdChamado: $("#id_chamado").val()
+                        };
+
+                        $.ajax(
+                            {
+                                type: "POST",
+                                url: "../LoggedFuncionario/ConsultarChamado_ID",
+                                data: Model,
+                                success: function (lista) {
+
+                                    if (lista[0].IdChamado != null) {
+
+                                        var dados = "";
+
+                                        for (var i = 0; i < lista.length; i++) {
+
+                                            dados += "<tr>";
+                                            dados += "<td align='center'>" + lista[i].IdChamado + "</td>";
+                                            dados += "<td align='center'>" + lista[i].Assunto + "</td>";
+                                            dados += "<td align='center'>" + lista[i].Situacao + "</td>";
+                                            dados += "<td align='center'>" + formatData(lista[i].DataAbertura) + "</td>";
+                                            dados += "<td align='center'>" + lista[i].Cliente.Nome + "</td>";
+                                            dados += "<td align='center'>" + '<a  class="btn btn-info glyphicon glyphicon-zoom-in" onclick="editFunction(\'' + lista[i].IdChamado + '\')">' + " Visualizar" + "</a>" + "</td>";
+                                            dados += "</tr>";
+                                        }
+
+                                        $("#tabela_chamado tbody").empty();
+                                        $("#tabela_chamado tbody").append(dados);
+                                        $("#mensagem_pesquisa").html("");
+
+                                    }
+                                    else {
+
+                                        $("#mensagem_pesquisa").html("Nenhum Chamado encontrado.");
+                                        $("#tabela_chamado tbody").empty();
+                                    }
+                                },
+                                error: function (e) {
+                                    $("#mensagem_pesquisa").html(e.status);
+                                }
+                            });
+                    });
+
+                $("#btnsituacao_aberto").click(
+                    function () {
+
+                        var Model = {
+                            Situacao: "Aberto"
+                        };
+
+                        $.ajax(
+                            {
+                                type: "POST",
+                                url: "../LoggedFuncionario/ConsultarChamado_Situacao",
+                                data: Model,
+                                success: function (lista) {
+
+                                    if (lista[0].IdChamado != null) {
+
+                                        var dados = "";
+
+                                        for (var i = 0; i < lista.length; i++) {
+
+                                            dados += "<tr>";
+                                            dados += "<td align='center'>" + lista[i].IdChamado + "</td>";
+                                            dados += "<td align='center'>" + lista[i].Assunto + "</td>";
+                                            dados += "<td align='center'>" + lista[i].Situacao + "</td>";
+                                            dados += "<td align='center'>" + formatData(lista[i].DataAbertura) + "</td>";
+                                            dados += "<td align='center'>" + lista[i].Cliente.Nome + "</td>";
+                                            dados += "<td align='center'>" + '<a  class="btn btn-info glyphicon glyphicon-zoom-in" onclick="editFunction(\'' + lista[i].IdChamado + '\')">' + " Visualizar" + "</a>" + "</td>";
+                                            dados += "</tr>";
+                                        }
+
+                                        $("#tabela_chamado tbody").empty();
+                                        $("#tabela_chamado tbody").append(dados);
+                                        $("#mensagem_pesquisa").html("");
+
+                                    }
+                                    else {
+
+                                        $("#mensagem_pesquisa").html("Nenhum Chamado encontrado.");
+                                        $("#tabela_chamado tbody").empty();
+                                    }
+                                },
+                                error: function (e) {
+                                    $("#mensagem_pesquisa").html(e.status);
+                                }
+                            });
+                    });
+
+                $("#btnsituacao_fechado").click(
+                    function () {
+
+                        var Model = {
+                            Situacao: "Fechado"
+                        };
+
+                        $.ajax(
+                            {
+                                type: "POST",
+                                url: "../LoggedFuncionario/ConsultarChamado_Situacao",
+                                data: Model,
+                                success: function (lista) {
+
+                                    if (lista[0].IdChamado != null) {
+
+                                        var dados = "";
+
+                                        for (var i = 0; i < lista.length; i++) {
+
+                                            dados += "<tr>";
+                                            dados += "<td align='center'>" + lista[i].IdChamado + "</td>";
+                                            dados += "<td align='center'>" + lista[i].Assunto + "</td>";
+                                            dados += "<td align='center'>" + lista[i].Situacao + "</td>";
+                                            dados += "<td align='center'>" + formatData(lista[i].DataAbertura) + "</td>";
+                                            dados += "<td align='center'>" + lista[i].Cliente.Nome + "</td>";
+                                            dados += "<td align='center'>" + '<a  class="btn btn-info glyphicon glyphicon-zoom-in" onclick="editFunction(\'' + lista[i].IdChamado + '\')">' + " Visualizar" + "</a>" + "</td>";
+                                            dados += "</tr>";
+                                        }
+
+                                        $("#tabela_chamado tbody").empty();
+                                        $("#tabela_chamado tbody").append(dados);
+                                        $("#mensagem_pesquisa").html("");
+
+                                    }
+                                    else {
+
+                                        $("#mensagem_pesquisa").html("Nenhum Chamado encontrado.");
+                                        $("#tabela_chamado tbody").empty();
+                                    }
+                                },
+                                error: function (e) {
+                                    $("#mensagem_pesquisa").html(e.status);
+                                }
+                            });
+                    });
+            });
+    </script>
+}
+
+<div class="container">
+    <div class="row">
+
+        <div class="col-md-3" style="text-align:center">
+
+            <p>
+                <h4>Consulta por Código:</h4>
+            </p>
+            <input type="text" placeholder="Código" id="id_chamado" class="form-control" />
+            <br />
+            <button id="btnpesquisa_chamado" class="btn btn-primary btn-block">
+                Pesquisar
+            </button>
+            <hr />
+
+            <p>
+                <h4>Consulta por Situação:</h4>
+            </p>
+
+            <button id="btnsituacao_aberto" class="btn btn-primary btn-block">
+                Aberto
+            </button>
+
+            <button id="btnsituacao_fechado" class="btn btn-primary btn-block">
+                Fechado
+            </button>
+            <hr />
+
+            <p>
+                <h4>Consulta por Data:</h4>
+            </p>
+
+            <button id="btndata_abertura" class="btn btn-primary btn-block">
+                Data de Abertura
+            </button>
+
+            <button id="btndata-fechamento" class="btn btn-primary btn-block">
+                Data de Fechamento
+            </button>
+            <hr />
+
+        </div>
+
+        <div class="col-md-9">
+
+            <span id="mensagem_pesquisa"></span>
+
+            <table id="tabela_chamado" class="table table-hover">
+                <thead>
+                    <tr>
+                        <th style="text-align:center">Código</th>
+                        <th style="text-align:center">Assunto</th>
+                        <th style="text-align:center">Situação</th>
+                        <th style="text-align:center">Data de Abertura</th>
+                        <th style="text-align:center">Cliente</th>
+                        <th style="text-align:center">Opções</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="info">
+                        <td align="center">Não há dados para exibir.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+

@@ -44,5 +44,18 @@ namespace Projeto.DAL.Persistence
                 return query.ToList();
             }
         }
+
+        public List<Chamado> FindAllByDataAbertura(DateTime DataInicial, DateTime DataFinal)
+        {
+            using (ISession s = HibernateUtil.Factory.OpenSession())
+            {
+                var query = from ch
+                            in s.Query<Chamado>()
+                            where (ch.DataAbertura >= DataInicial && ch.DataAbertura <= DataFinal)
+                            select ch;
+
+                return query.ToList();
+            }
+        }
     }
 }

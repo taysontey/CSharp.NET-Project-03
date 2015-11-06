@@ -49,12 +49,14 @@
                                         $("#tabela_chamado tbody").empty();
                                         $("#tabela_chamado tbody").append(dados);
                                         $("#mensagem_pesquisa").html("");
+                                        $("#id_chamado").val("");
 
                                     }
                                     else {
 
                                         $("#mensagem_pesquisa").html("Nenhum Chamado encontrado.");
                                         $("#tabela_chamado tbody").empty();
+                                        $("#id_chamado").val("");
                                     }
                                 },
                                 error: function (e) {
@@ -156,6 +158,69 @@
                                 }
                             });
                     });
+
+                $("#btndata_abertura").click(
+                    function () {
+
+                        $('#janela_data_abertura').modal('show');
+
+                        $("#btnpesq_data_abertura").click(
+                            function () {
+
+                                var Model = {
+                                    DataInicial: $("#inicial_abertura").val(),
+                                    DataFinal: $("#final_abertura").val()
+                                };
+
+                                $.ajax(
+                            {
+                                type: "POST",
+                                url: "../LoggedFuncionario/ConsultarChamado_DataAbertura",
+                                data: Model,
+                                success: function (lista) {
+
+                                    if (lista.length != 0) {
+
+                                        var dados = "";
+
+                                        for (var i = 0; i < lista.length; i++) {
+
+                                            dados += "<tr>";
+                                            dados += "<td align='center'>" + lista[i].IdChamado + "</td>";
+                                            dados += "<td align='center'>" + lista[i].Assunto + "</td>";
+                                            dados += "<td align='center'>" + lista[i].Situacao + "</td>";
+                                            dados += "<td align='center'>" + formatData(lista[i].DataAbertura) + "</td>";
+                                            dados += "<td align='center'>" + lista[i].Cliente.Nome + "</td>";
+                                            dados += "<td align='center'>" + '<a  class="btn btn-info glyphicon glyphicon-zoom-in" onclick="editFunction(\'' + lista[i].IdChamado + '\')">' + " Visualizar" + "</a>" + "</td>";
+                                            dados += "</tr>";
+                                        }
+
+                                        $("#tabela_chamado tbody").empty();
+                                        $("#tabela_chamado tbody").append(dados);
+                                        $("#mensagem_pesquisa").html("");
+                                        $('#janela_data_abertura').modal('hide');
+
+                                    }
+                                    else {
+                                        $('#janela_data_abertura').modal('hide');
+                                        $("#mensagem_pesquisa").html("Nenhum Chamado encontrado.");
+                                        $("#tabela_chamado tbody").empty();
+                                    }
+                                },
+                                error: function (e) {
+                                    $("#mensagem_pesquisa").html(e.status);
+                                }
+                            });
+
+                            })
+
+                        $("#btncancelar").click(
+                            function () {
+
+                                $('#janela_data_abertura').modal('hide');
+
+                            });
+                    });
             });
     </script>
 }
@@ -195,10 +260,6 @@
             <button id="btndata_abertura" class="btn btn-primary btn-block">
                 Data de Abertura
             </button>
-
-            <button id="btndata-fechamento" class="btn btn-primary btn-block">
-                Data de Fechamento
-            </button>
             <hr />
 
         </div>
@@ -219,7 +280,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr class="info">
+                    <tr>
                         <td align="center">Não há dados para exibir.</td>
                     </tr>
                 </tbody>
@@ -228,3 +289,38 @@
     </div>
 </div>
 
+<div id="janela_data_abertura" class="modal fade">
+    <div class="modal-dialog modal-sm">
+        <div class="col-md-12">
+            <div class="modal-content">
+
+                <div class="modal-header bg-info" style="text-align:center">
+                    <h4>Data de Abertura</h4>
+                </div>
+
+                <div class="modal-body">
+
+                    <label>Data Inicial:</label>
+                    <input type="date" id="inicial_abertura" class="form-control" />
+                    <br />
+
+                    <label>Data Final:</label>
+                    <input type="date" id="final_abertura" class="form-control" />
+                    <br />
+
+                </div>
+
+                <div class="modal-footer" style="text-align:center">
+
+                    <button id="btnpesq_data_abertura" class="btn btn-info glyphicon glyphicon-ok">
+                        Pesquisar
+                    </button>
+
+                    <button id="btncancelar" class="btn btn-danger glyphicon glyphicon-remove">
+                        Cancelar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

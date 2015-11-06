@@ -38,5 +38,18 @@ namespace Projeto.DAL.Persistence
                 return query.Count() > 0;
             }
         }
+
+        public bool CheckPassword(string Senha)
+        {
+            using (ISession s = HibernateUtil.Factory.OpenSession())
+            {
+                var query = from f
+                            in s.Query<Funcionario>()
+                            where f.Senha.Equals(Senha)
+                            select f;
+
+                return query.Count() > 0;
+            }
+        }      
     }
 }

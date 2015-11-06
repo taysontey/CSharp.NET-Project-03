@@ -109,6 +109,7 @@
     <Content Include="Areas\LoggedCliente\Views\LoggedCliente\NovaSenha.cshtml" />
     <Content Include="Areas\LoggedFuncionario\Views\LoggedFuncionario\ListaChamado.cshtml" />
     <Content Include="Areas\LoggedFuncionario\Views\LoggedFuncionario\ConsultaChamado.cshtml" />
+    <Content Include="Areas\LoggedFuncionario\Views\LoggedFuncionario\NovaSenha.cshtml" />
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -127,6 +128,7 @@
     <Compile Include="Areas\LoggedFuncionario\Controllers\LoggedFuncionarioController.cs" />
     <Compile Include="Areas\LoggedFuncionario\LoggedFuncionarioAreaRegistration.cs" />
     <Compile Include="Areas\LoggedFuncionario\Models\ChamadoModel.cs" />
+    <Compile Include="Areas\LoggedFuncionario\Models\FuncionarioModelSenha.cs" />
     <Compile Include="Controllers\ClienteController.cs" />
     <Compile Include="Controllers\FuncionarioController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />

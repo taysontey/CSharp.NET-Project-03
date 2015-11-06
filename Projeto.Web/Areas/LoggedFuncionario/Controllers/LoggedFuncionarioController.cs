@@ -204,6 +204,80 @@ namespace Projeto.Web.Areas.LoggedFuncionario.Controllers
             }
         }
 
+        public JsonResult ConsultarChamado_DataAbertura(ChamadoModelConsulta model)
+        {
+            try
+            {
+                ChamadoDal d = new ChamadoDal();
+
+
+
+                List<Chamado> lista = d.FindAllByDataAbertura(model.DataInicial, model.DataFinal);
+
+                List<Chamado> list = new List<Chamado>();
+
+                foreach (Chamado chamado in lista)
+                {
+                    Chamado ch = new Chamado();
+
+                    ch.IdChamado = chamado.IdChamado;
+                    ch.Assunto = chamado.Assunto;
+                    ch.Situacao = chamado.Situacao;
+                    ch.DataAbertura = chamado.DataAbertura;
+
+                    ch.Cliente = new Cliente();
+                    ch.Cliente.Nome = chamado.Cliente.Nome;
+
+                    list.Add(ch);
+                }
+
+                return Json(list, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                return Json(e.Message);
+            }
+        }
+
+        #endregion
+
+        #region Metodos AJAX (Funcionario)
+
+        public JsonResult AlterarSenha(FuncionarioModelSenha model)
+        {
+            try
+            {
+                Funcionario f = (Funcionario)Session["funcionariologado"];
+
+                FuncionarioDal d = new FuncionarioDal();
+
+                if (model.NewSenha.Equals(model.ConfirmSenha))
+                {
+                    if (d.CheckPassword(Criptografia.GetMD5Hash(model.OldSenha)))
+                    {
+                        f = d.FindById(f.IdUsuario);
+                        f.Senha = Criptografia.GetMD5Hash(model.NewSenha);
+
+                        d.SaveOrUpdate(f);
+
+                        return Json("Senha atualizada.");
+                    }
+                    else
+                    {
+                        return Json("Senha atual incorreta.");
+                    }
+                }
+                else
+                {
+                    return Json("As senhas não correspondem.");
+                }
+            }
+            catch (Exception e)
+            {
+                return Json(e.Message);
+            }
+        }
+
         #endregion
     }
 }

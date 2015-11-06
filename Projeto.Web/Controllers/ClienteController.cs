@@ -39,7 +39,7 @@ namespace Projeto.Web.Controllers
                     c.DataNascimento = model.DataNascimento;
                     c.Sexo = model.Sexo;
 
-                    d.AddCliente(c);
+                    d.SaveOrUpdate(c);
 
                     c.Endereco = new Endereco();
 

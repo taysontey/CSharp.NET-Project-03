@@ -31,25 +31,5 @@ namespace Projeto.DAL.Persistence
                 return query.ToList();
             }
         }
-
-        public void DeleteById(int id)
-        {
-            using (ISession s = HibernateUtil.Factory.OpenSession())
-            {
-                ITransaction t = s.BeginTransaction();
-
-                var query = from c
-                            in s.Query<Chamado>()
-                            where c.IdChamado.Equals(id)
-                            select c;
-                
-                foreach(Chamado chamado in query)
-                {
-                    s.Delete(chamado);
-                }
-
-                t.Commit();
-            }
-        }
     }
 }

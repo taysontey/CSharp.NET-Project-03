@@ -144,11 +144,11 @@ namespace Projeto.Web.Areas.LoggedCliente.Controllers
                 Cliente c = (Cliente)Session["clientelogado"];
 
                 ChamadoDal d = new ChamadoDal();
-                Chamado ch = d.FindById(model.IdChamado);
+                Chamado chamado = d.FindById(model.IdChamado);
 
-                if (ch.Situacao == "Aberto")
+                if (chamado.Situacao == "Aberto")
                 {
-                    d.DeleteById(model.IdChamado);
+                    d.Delete(chamado);
 
                     return Json("Chamado excluído.");
                 }
@@ -175,12 +175,16 @@ namespace Projeto.Web.Areas.LoggedCliente.Controllers
                 Cliente c = (Cliente)Session["clientelogado"];
 
                 ClienteDal d = new ClienteDal();
+
                 if (model.NewSenha.Equals(model.ConfirmSenha))
                 {
                     if (d.CheckPassword(Criptografia.GetMD5Hash(model.OldSenha)))
                     {
+                        c = d.FindById(c.IdUsuario);
                         c.Senha = Criptografia.GetMD5Hash(model.NewSenha);
-                        d.UpdatePassword(c);
+
+                        d.SaveOrUpdate(c);
+
                         return Json("Senha atualizada.");
                     }
                     else

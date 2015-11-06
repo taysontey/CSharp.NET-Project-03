@@ -107,6 +107,7 @@
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Areas\LoggedCliente\Views\LoggedCliente\NovaSenha.cshtml" />
+    <Content Include="Areas\LoggedFuncionario\Views\LoggedFuncionario\ListaChamado.cshtml" />
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -150,9 +151,7 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Areas\LoggedFuncionario\Views\LoggedFuncionario\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\Projeto.DAL\Projeto.DAL.csproj">
       <Project>{26b0b877-e564-4d9f-866e-86c0a97f3116}</Project>

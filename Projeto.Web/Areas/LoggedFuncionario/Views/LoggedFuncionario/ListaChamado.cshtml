@@ -1,6 +1,6 @@
 ﻿@{
     ViewBag.Title = "ListaChamado";
-    Layout = "~/Areas/LoggedCliente/Views/Shared/Layout.cshtml";
+    Layout = "~/Areas/LoggedFuncionario/Views/Shared/Layout.cshtml";
 }
 
 @section javascript{
@@ -19,7 +19,7 @@
                 $.ajax(
                     {
                         type: "POST",
-                        url: "../LoggedCliente/ListarChamado",
+                        url: "../LoggedFuncionario/ListarChamado",
                         success: function (lista) {
 
                             if (lista[0] != null) {
@@ -33,8 +33,8 @@
                                     dados += "<td align='center'>" + lista[i].Assunto + "</td>";
                                     dados += "<td align='center'>" + lista[i].Situacao + "</td>";
                                     dados += "<td align='center'>" + formatData(lista[i].DataAbertura) + "</td>";
-                                    dados += "<td>" + '<a  class="btn btn-info glyphicon glyphicon-edit" onclick="editFunction(\'' + lista[i].IdChamado + '\')">' + " Editar" + "</a>" + " " +
-                                                      '<a  class="btn btn-danger glyphicon glyphicon-trash"  onclick="deleteFunction(\'' + lista[i].IdChamado + '\');" >' + " Excluir" + "</a>" + "</td>";
+                                    dados += "<td align='center'>" + lista[i].Cliente.Nome + "</td>";
+                                    dados += "<td>" + '<a  class="btn btn-info glyphicon glyphicon-zoom-in" onclick="editFunction(\'' + lista[i].IdChamado + '\')">' + " Visualizar" + "</a>" + " " + "</td>";
                                     dados += "</tr>";
                                 }
 
@@ -55,47 +55,6 @@
                     });
             });
 
-        function deleteFunction(id) {
-
-            $('#confirm_delete').modal('show');
-
-            $("#btndelete_yes").click(
-                function () {
-
-                    var dados =
-                        {
-                            IdChamado: id
-                        };
-
-                    $.ajax(
-                        {
-
-                            type: "POST",
-                            url: "../LoggedCliente/ExcluirChamado",
-                            data: dados,
-                            success: function (msg) {
-
-                                $('#confirm_delete').modal('hide');
-                                $("#mensagem_pesquisa").html(msg);
-
-                                window.setTimeout(
-                                    function () {
-                                        location.reload()
-                                    }, 3000)                              
-                            },
-                            error: function (e) {
-
-                                $("#mensagem_pesquisa").html(e.status);
-                            }
-                        });
-                });
-
-            $("#btndelete_no").click(
-                function () {
-                    $('#confirm_delete').modal('hide');
-                });
-        }
-
         function editFunction(Id) {
 
 
@@ -110,38 +69,38 @@
             $.ajax(
                         {
                             type: "POST",
-                            url: "../LoggedCliente/EdicaoChamado",
+                            url: "../LoggedFuncionario/EdicaoChamado",
                             data: Model,
                             success: function (lista) {
 
                                 $("#id_chamado").val(lista.IdChamado);
                                 $("#assunto_chamado").val(lista.Assunto);
-                                $("#desc_chamado").val(lista.Descricao);                          
+                                $("#desc_chamado").val(lista.Descricao);
+                                $("#solucao_chamado").val(lista.Solucao);
 
                             },
                             error: function (e) {
                                 $("#mensagem_pesquisa").html(e.status);
                             }
                         })
-            
+
             $("#btnedicao_chamado").click(
                 function () {
 
                     var Model = {
                         IdChamado: $("#id_chamado").val(),
-                        Assunto: $("#assunto_chamado").val(),
-                        Descricao: $("#desc_chamado").val()
+                        Solucao: $("#solucao_chamado").val()
                     };
 
                     $.ajax(
                         {
                             type: "POST",
-                            url: "../LoggedCliente/EditarChamado",
+                            url: "../LoggedFuncionario/EditarChamado",
                             data: Model,
                             success: function (msg) {
 
                                 $('#janela_edicao').modal('hide');
-                                location.reload();      
+                                location.reload();
                             },
                             error: function (e) {
                                 $("#mensagem_pesquisa").html(e.status);
@@ -149,8 +108,14 @@
                         })
 
                 });
-        }
 
+            $("#btncancelar").click(
+                function () {
+
+                    $('#janela_edicao').modal('hide');
+
+                });
+        }
     </script>
 }
 
@@ -171,6 +136,7 @@
                         <th style="text-align:center">Assunto</th>
                         <th style="text-align:center">Situação</th>
                         <th style="text-align:center">Data de Abertura</th>
+                        <th style="text-align:center">Cliente</th>
                         <th style="text-align:center">Opções</th>
                     </tr>
                 </thead>
@@ -190,53 +156,33 @@
             <div class="modal-content">
 
                 <div class="modal-header bg-info" style="text-align:center">
-                    <h3>Edição de Chamados</h3>
+                    <h3>Chamado Número: <input id="id_chamado" style="width:50px;text-align:center" disabled class="form-inline" /></h3>
                 </div>
 
                 <div class="modal-body">
 
                     <label>Assunto:</label>
-                    <input type="text" id="assunto_chamado" class="form-control" />
+                    <input type="text" id="assunto_chamado" class="form-control" readonly/>
                     <br />
 
                     <label>Descrição:</label>
-                    <textarea id="desc_chamado" rows="10" cols="73" style="overflow:auto;resize:none" class="form-control"></textarea>
+                    <textarea id="desc_chamado" rows="10" cols="73" style="overflow:auto;resize:none" class="form-control" readonly></textarea>
                     <br />
 
-                    <input type="hidden" id="id_chamado" value="" class="form-control" />
+                    <label>Solução:</label>
+                    <textarea id="solucao_chamado" rows="10" cols="73" style="overflow:auto;resize:none" class="form-control"></textarea>
+                    <br />
 
                 </div>
 
                 <div class="modal-footer">
 
                     <button id="btnedicao_chamado" class="btn btn-info glyphicon glyphicon-ok">
-                        Concluir
-                    </button>
-                    <hr />
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<div id="confirm_delete" class="modal fade">
-    <div class="modal-dialog modal-sm">
-        <div class="col-md-12">
-            <div class="modal-content">
-
-                <div class="modal-header bg-info" style="text-align:center">
-                    <h3>Excluir Chamado?</h3>
-                </div>
-
-                <div class="modal-footer" style="text-align:center">
-
-                    <button id="btndelete_yes" class="btn btn-info glyphicon glyphicon-ok">
-                        Sim
+                        Fechar Chamado
                     </button>
 
-                    <button id="btndelete_no" class="btn btn-danger glyphicon glyphicon-remove">
-                        Não
+                    <button id="btncancelar" class="btn btn-danger glyphicon glyphicon-remove">
+                        Cancelar
                     </button>
                 </div>
             </div>

@@ -81,13 +81,10 @@ namespace Projeto.Web.Areas.LoggedCliente.Controllers
 
                 Chamado chamado = d.FindById(model.IdChamado);
 
-                Chamado ch = new Chamado();
+                model.Assunto = chamado.Assunto;
+                model.Descricao = chamado.Descricao;
 
-                ch.IdChamado = chamado.IdChamado;
-                ch.Assunto = chamado.Assunto;
-                ch.Descricao = chamado.Descricao;
-
-                return Json(ch, JsonRequestBehavior.AllowGet);
+                return Json(model);
             }
             catch (Exception e)
             {
@@ -105,12 +102,20 @@ namespace Projeto.Web.Areas.LoggedCliente.Controllers
 
                 Chamado chamado = d.FindById(model.IdChamado);
 
-                chamado.Assunto = model.Assunto;
-                chamado.Descricao = model.Descricao;
+                if (chamado.Situacao.Equals("Aberto"))
+                {
+                    chamado.Assunto = model.Assunto;
+                    chamado.Descricao = model.Descricao;
 
-                d.SaveOrUpdate(chamado);
+                    d.SaveOrUpdate(chamado);
 
-                return Json("Chamado Atualizado.");
+                    return Json("Chamado Atualizado.");
+                }
+                else
+                {
+                    return Json("Chamado não pode ser alterado, o mesmo já se encontra fechado.");
+                }
+
             }
             catch (Exception e)
             {
@@ -146,7 +151,7 @@ namespace Projeto.Web.Areas.LoggedCliente.Controllers
                 ChamadoDal d = new ChamadoDal();
                 Chamado chamado = d.FindById(model.IdChamado);
 
-                if (chamado.Situacao == "Aberto")
+                if (chamado.Situacao.Equals("Aberto"))
                 {
                     d.Delete(chamado);
 

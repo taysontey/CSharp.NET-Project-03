@@ -142,7 +142,7 @@ namespace Projeto.Web.Areas.LoggedFuncionario.Controllers
 
         #region Consultas (Chamado)
 
-        public JsonResult ConsultarChamado_ID(ChamadoModelConsulta model)
+        public JsonResult ConsultarChamado_ID(ChamadoModelResultado model)
         {
             try
             {
@@ -150,20 +150,16 @@ namespace Projeto.Web.Areas.LoggedFuncionario.Controllers
 
                 Chamado chamado = d.FindById(model.IdChamado);
 
-                Chamado ch = new Chamado();
+                model.IdChamado = chamado.IdChamado;
+                model.Assunto = chamado.Assunto;
+                model.Situacao = chamado.Situacao;
+                model.DataAbertura = chamado.DataAbertura;
+                model.Cliente_Nome = chamado.Cliente.Nome;
 
-                ch.IdChamado = chamado.IdChamado;
-                ch.Assunto = chamado.Assunto;
-                ch.Situacao = chamado.Situacao;
-                ch.DataAbertura = chamado.DataAbertura;
+                List<ChamadoModelResultado> list = new List<ChamadoModelResultado>();
+                list.Add(model);
 
-                ch.Cliente = new Cliente();
-                ch.Cliente.Nome = chamado.Cliente.Nome;
-
-                List<Chamado> list = new List<Chamado>();
-                list.Add(ch);
-
-                return Json(list, JsonRequestBehavior.AllowGet);
+                return Json(list);
             }
             catch (Exception e)
             {
@@ -171,7 +167,7 @@ namespace Projeto.Web.Areas.LoggedFuncionario.Controllers
             }
         }
 
-        public JsonResult ConsultarChamado_Situacao(ChamadoModelConsulta model)
+        public JsonResult ConsultarChamado_Situacao(ChamadoModelResultado model)
         {
             try
             {
@@ -179,24 +175,20 @@ namespace Projeto.Web.Areas.LoggedFuncionario.Controllers
                 
                 List<Chamado> lista = d.FindAllBySituacao(model.Situacao);
 
-                List<Chamado> list = new List<Chamado>();
+                List<ChamadoModelResultado> list = new List<ChamadoModelResultado>();
 
                 foreach(Chamado chamado in lista)
                 {
-                    Chamado ch = new Chamado();
+                    model.IdChamado = chamado.IdChamado;
+                    model.Assunto = chamado.Assunto;
+                    model.Situacao = chamado.Situacao;
+                    model.DataAbertura = chamado.DataAbertura;
+                    model.Cliente_Nome = chamado.Cliente.Nome;
 
-                    ch.IdChamado = chamado.IdChamado;
-                    ch.Assunto = chamado.Assunto;
-                    ch.Situacao = chamado.Situacao;
-                    ch.DataAbertura = chamado.DataAbertura;
-
-                    ch.Cliente = new Cliente();
-                    ch.Cliente.Nome = chamado.Cliente.Nome;
-
-                    list.Add(ch);
+                    list.Add(model);
                 }
 
-                return Json(list, JsonRequestBehavior.AllowGet);
+                return Json(list);
             }
             catch (Exception e)
             {
@@ -204,34 +196,28 @@ namespace Projeto.Web.Areas.LoggedFuncionario.Controllers
             }
         }
 
-        public JsonResult ConsultarChamado_DataAbertura(ChamadoModelConsulta model)
+        public JsonResult ConsultarChamado_DataAbertura(ChamadoModelResultado model)
         {
             try
             {
                 ChamadoDal d = new ChamadoDal();
 
-
-
                 List<Chamado> lista = d.FindAllByDataAbertura(model.DataInicial, model.DataFinal);
 
-                List<Chamado> list = new List<Chamado>();
+                List<ChamadoModelResultado> list = new List<ChamadoModelResultado>();
 
                 foreach (Chamado chamado in lista)
                 {
-                    Chamado ch = new Chamado();
+                    model.IdChamado = chamado.IdChamado;
+                    model.Assunto = chamado.Assunto;
+                    model.Situacao = chamado.Situacao;
+                    model.DataAbertura = chamado.DataAbertura;
+                    model.Cliente_Nome = chamado.Cliente.Nome;
 
-                    ch.IdChamado = chamado.IdChamado;
-                    ch.Assunto = chamado.Assunto;
-                    ch.Situacao = chamado.Situacao;
-                    ch.DataAbertura = chamado.DataAbertura;
-
-                    ch.Cliente = new Cliente();
-                    ch.Cliente.Nome = chamado.Cliente.Nome;
-
-                    list.Add(ch);
+                    list.Add(model);
                 }
 
-                return Json(list, JsonRequestBehavior.AllowGet);
+                return Json(list);
             }
             catch (Exception e)
             {

@@ -141,7 +141,12 @@
                             success: function (msg) {
 
                                 $('#janela_edicao').modal('hide');
-                                location.reload();      
+                                $("#mensagem_pesquisa").html(msg);
+
+                                window.setTimeout(
+                                    function () {
+                                        location.reload()
+                                    }, 3000)
                             },
                             error: function (e) {
                                 $("#mensagem_pesquisa").html(e.status);

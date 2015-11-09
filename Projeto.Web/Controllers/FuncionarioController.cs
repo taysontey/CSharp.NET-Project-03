@@ -27,24 +27,32 @@ namespace Projeto.Web.Controllers
             {
                 FuncionarioDal d = new FuncionarioDal();
 
-                if(!d.HasLogin(model.Login))
-                { 
-                    Funcionario f = new Funcionario();
+                if(ModelState.IsValid)
+                {
+                    if (!d.HasLogin(model.Login))
+                    {
+                        Funcionario f = new Funcionario();
 
-                    f.Nome = model.Nome;
-                    f.Sobrenome = model.Sobrenome;
-                    f.Login = model.Login;
-                    f.Senha = Criptografia.GetMD5Hash(model.Senha);
-                    f.DataCadastro = DateTime.Now;
+                        f.Nome = model.Nome;
+                        f.Sobrenome = model.Sobrenome;
+                        f.Login = model.Login;
+                        f.Senha = Criptografia.GetMD5Hash(model.Senha);
+                        f.DataCadastro = DateTime.Now;
 
-                    d.SaveOrUpdate(f);
+                        d.SaveOrUpdate(f);
 
-                    return Json("Funcionário cadastrado com sucesso.");
+                        return Json("Funcionário cadastrado com sucesso.");
+                    }
+                    else
+                    {
+                        return Json("Login indisponivel, tente outro.");
+                    }
                 }
                 else
                 {
-                    return Json("Login indisponivel, tente outro.");
+                    return Json("Preencha os campos corretamente.");
                 }
+                
             }
             catch (Exception e)
             {

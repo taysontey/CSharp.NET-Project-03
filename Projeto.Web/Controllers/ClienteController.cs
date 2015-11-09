@@ -11,7 +11,7 @@ using Projeto.Security.Security;
 namespace Projeto.Web.Controllers
 {
     public class ClienteController : Controller
-    {      
+    {
         [AllowAnonymous]
         public ActionResult Cadastro()
         {
@@ -26,54 +26,62 @@ namespace Projeto.Web.Controllers
             {
                 ClienteDal d = new ClienteDal();
 
-                if (!d.HasLogin(model.Login))
+                if (ModelState.IsValid)
                 {
-                    //Verificar se é possivel melhorar essa parte + tarde
+                    if (!d.HasLogin(model.Login))
+                    {
+                        //Verificar se é possivel melhorar essa parte + tarde
 
-                    Cliente c = new Cliente();
-                    
-                    c.Nome = model.Nome;
-                    c.Sobrenome = model.Sobrenome;
-                    c.Login = model.Login;
-                    c.Senha = Criptografia.GetMD5Hash(model.Senha);
-                    c.DataNascimento = model.DataNascimento;
-                    c.Sexo = model.Sexo;
+                        Cliente c = new Cliente();
 
-                    d.SaveOrUpdate(c);
+                        c.Nome = model.Nome;
+                        c.Sobrenome = model.Sobrenome;
+                        c.Login = model.Login;
+                        c.Senha = Criptografia.GetMD5Hash(model.Senha);
+                        c.DataNascimento = model.DataNascimento;
+                        c.Sexo = model.Sexo;
 
-                    c.Endereco = new Endereco();
+                        d.SaveOrUpdate(c);
 
-                    c.Endereco.Logradouro = model.Logradouro;
-                    c.Endereco.Bairro = model.Bairro;
-                    c.Endereco.Cidade = model.Cidade;
-                    c.Endereco.Estado = model.Estado;
-                    c.Endereco.CEP = model.CEP;
-                    c.Endereco.Cliente = c;
+                        c.Endereco = new Endereco();
 
-                    Telefone t1 = new Telefone();
-                    
-                    t1.Numero = model.Numero1;
-                    t1.Tipo = model.Tipo1;
-                    t1.Cliente = c;
+                        c.Endereco.Logradouro = model.Logradouro;
+                        c.Endereco.Bairro = model.Bairro;
+                        c.Endereco.Cidade = model.Cidade;
+                        c.Endereco.Estado = model.Estado;
+                        c.Endereco.CEP = model.CEP;
+                        c.Endereco.Cliente = c;
 
-                    Telefone t2 = new Telefone();
+                        Telefone t1 = new Telefone();
 
-                    t2.Numero = model.Numero2;
-                    t2.Tipo = model.Tipo2;
-                    t2.Cliente = c;
+                        t1.Numero = model.Numero1;
+                        t1.Tipo = model.Tipo1;
+                        t1.Cliente = c;
 
-                    c.Telefones = new List<Telefone>();
-                    c.Telefones.Add(t1);
-                    c.Telefones.Add(t2);
-                    
-                    d.SaveOrUpdate(c);
+                        Telefone t2 = new Telefone();
 
-                    return Json("Cliente cadastrado com sucesso.");
+                        t2.Numero = model.Numero2;
+                        t2.Tipo = model.Tipo2;
+                        t2.Cliente = c;
+
+                        c.Telefones = new List<Telefone>();
+                        c.Telefones.Add(t1);
+                        c.Telefones.Add(t2);
+
+                        d.SaveOrUpdate(c);
+
+                        return Json("Cliente cadastrado com sucesso.");
+                    }
+                    else
+                    {
+                        return Json("Login indisponivel, tente outro.");
+                    }
                 }
                 else
                 {
-                    return Json("Login indisponivel, tente outro.");
+                    return Json("Preencha os campos corretamente.");
                 }
+
             }
             catch (Exception e)
             {

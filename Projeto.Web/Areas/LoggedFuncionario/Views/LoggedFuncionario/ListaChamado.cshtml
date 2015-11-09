@@ -57,6 +57,11 @@
 
         function editFunction(Id) {
 
+            function formatData(jsonDateString) {
+                var data = new Date(parseInt(jsonDateString.replace('/Date(', '')));
+                var localData = data.toLocaleDateString();
+                return localData;
+            }
 
             $('#janela_edicao').modal('show');
 
@@ -76,7 +81,13 @@
                                 $("#id_chamado").val(lista.IdChamado);
                                 $("#assunto_chamado").val(lista.Assunto);
                                 $("#desc_chamado").val(lista.Descricao);
-                                $("#solucao_chamado").val(lista.Solucao);     
+                                $("#situacao_chamado").val(lista.Situacao);
+                                $("#data_abertura").val(formatData(lista.DataAbertura));
+                                $("#data_fechamento").val(lista.DataFechamento);
+                                $("#solucao_chamado").val(lista.Solucao);
+                                $("#cliente_nome").val(lista.Cliente_Nome);
+                                $("#funcionario_nome").val(lista.Funcionario_Nome);
+
                             },
                             error: function (e) {
                                 $("#mensagem_pesquisa").html(e.status);
@@ -155,15 +166,27 @@
 </div>
 
 <div id="janela_edicao" class="modal fade">
-    <div class="modal-dialog">
-        <div class="col-md-12">
+    <div class="modal-dialog modal-lg">
+        <div class="col-md-6">
             <div class="modal-content">
 
                 <div class="modal-header bg-info" style="text-align:center">
-                    <h4>Chamado Número: <input id="id_chamado" style="width:50px;text-align:center" disabled class="form-inline" /></h4>
+                    <h4>Informações do Chamado</h4>
                 </div>
 
                 <div class="modal-body">
+
+                    <label>Código:</label>
+                    <input type="text" id="id_chamado" class="form-control" readonly />
+                    <br />
+
+                    <label>Cliente:</label>
+                    <input type="text" id="cliente_nome" class="form-control" readonly />
+                    <br />
+
+                    <label>Data de Abertura:</label>
+                    <input type="text" id="data_abertura" class="form-control" readonly />
+                    <br />
 
                     <label>Assunto:</label>
                     <input type="text" id="assunto_chamado" class="form-control" readonly />
@@ -173,10 +196,35 @@
                     <textarea id="desc_chamado" rows="10" cols="73" style="overflow:auto;resize:none" class="form-control" readonly></textarea>
                     <br />
 
-                    <label>Solução:</label>
-                    <textarea id="solucao_chamado" rows="10" cols="73" style="overflow:auto;resize:none" class="form-control"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="modal-content">
+
+                <div class="modal-header bg-info" style="text-align:center">
+                    <br />  
+                    <br />  
+                </div>
+
+                <div class="modal-body">
+
+                    <label>Situação:</label>
+                    <input type="text" id="situacao_chamado" class="form-control" readonly/>
                     <br />
 
+                    <label>Funcionário:</label>
+                    <input type="text" id="funcionario_nome" class="form-control" readonly placeholder="Chamado em aberto" />
+                    <br />
+
+                    <label>Data de Fechamento:</label>
+                    <input type="text" id="data_fechamento" class="form-control" readonly placeholder="Chamado em aberto" />
+                    <br />
+
+                    <label>Solução:</label>
+                    <textarea id="solucao_chamado" rows="10" cols="73" style="overflow:auto;resize:none" class="form-control" placeholder="Digite aqui a solução encontrada..."></textarea>
+                    <br />
+                    <br />
                 </div>
 
                 <div class="modal-footer">

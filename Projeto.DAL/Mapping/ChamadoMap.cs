@@ -47,7 +47,8 @@ namespace Projeto.DAL.Mapping
                 .Not.Nullable();
 
             References(c => c.Funcionario)
-                .Column("CODFUNCIONARIO");
+                .Column("CODFUNCIONARIO")
+                .Not.LazyLoad();
 
             #endregion
         }

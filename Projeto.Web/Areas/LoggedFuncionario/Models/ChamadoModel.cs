@@ -8,7 +8,14 @@ namespace Projeto.Web.Areas.LoggedFuncionario.Models
     public class ChamadoModelEdicao
     {
         public int IdChamado { get; set; }
+        public string Assunto { get; set; }
+        public string Descricao { get; set; }
+        public string Situacao { get; set; }
         public string Solucao { get; set; }
+        public DateTime DataAbertura { get; set; }
+        public string DataFechamento { get; set; }
+        public string Cliente_Nome { get; set; }
+        public string Funcionario_Nome { get; set; }
     }
 
     public class ChamadoModelResultado

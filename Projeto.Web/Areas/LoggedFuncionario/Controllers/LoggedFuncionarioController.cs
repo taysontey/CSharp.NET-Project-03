@@ -57,6 +57,7 @@ namespace Projeto.Web.Areas.LoggedFuncionario.Controllers
 
                 if(chamado.Situacao.Equals("Aberto"))
                 {
+                    //model.IdChamado = chamado.IdChamado;
                     model.Assunto = chamado.Assunto;
                     model.Descricao = chamado.Descricao;
                     model.Situacao = chamado.Situacao;
@@ -68,6 +69,7 @@ namespace Projeto.Web.Areas.LoggedFuncionario.Controllers
                 }
                 else
                 {
+                    //model.IdChamado = chamado.IdChamado;
                     model.Assunto = chamado.Assunto;
                     model.Descricao = chamado.Descricao;
                     model.Situacao = chamado.Situacao;
@@ -196,13 +198,15 @@ namespace Projeto.Web.Areas.LoggedFuncionario.Controllers
 
                 foreach(Chamado chamado in lista)
                 {
-                    model.IdChamado = chamado.IdChamado;
-                    model.Assunto = chamado.Assunto;
-                    model.Situacao = chamado.Situacao;
-                    model.DataAbertura = chamado.DataAbertura;
-                    model.Cliente_Nome = chamado.Cliente.Nome;
+                    ChamadoModelResultado resultado = new ChamadoModelResultado();
 
-                    list.Add(model);
+                    resultado.IdChamado = chamado.IdChamado;
+                    resultado.Assunto = chamado.Assunto;
+                    resultado.Situacao = chamado.Situacao;
+                    resultado.DataAbertura = chamado.DataAbertura;
+                    resultado.Cliente_Nome = chamado.Cliente.Nome;
+
+                    list.Add(resultado);
                 }
 
                 return Json(list);
@@ -225,13 +229,15 @@ namespace Projeto.Web.Areas.LoggedFuncionario.Controllers
 
                 foreach (Chamado chamado in lista)
                 {
-                    model.IdChamado = chamado.IdChamado;
-                    model.Assunto = chamado.Assunto;
-                    model.Situacao = chamado.Situacao;
-                    model.DataAbertura = chamado.DataAbertura;
-                    model.Cliente_Nome = chamado.Cliente.Nome;
+                    ChamadoModelResultado resultado = new ChamadoModelResultado();
 
-                    list.Add(model);
+                    resultado.IdChamado = chamado.IdChamado;
+                    resultado.Assunto = chamado.Assunto;
+                    resultado.Situacao = chamado.Situacao;
+                    resultado.DataAbertura = chamado.DataAbertura;
+                    resultado.Cliente_Nome = chamado.Cliente.Nome;
+
+                    list.Add(resultado);
                 }
 
                 return Json(list);

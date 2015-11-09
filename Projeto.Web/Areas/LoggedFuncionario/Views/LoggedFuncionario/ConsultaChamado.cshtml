@@ -20,7 +20,7 @@
                     function () {
 
                         var Model = {
-                            IdChamado: $("#id_chamado").val()
+                            IdChamado: $("#pesq_id_chamado").val()
                         };
 
                         $.ajax(
@@ -49,14 +49,14 @@
                                         $("#tabela_chamado tbody").empty();
                                         $("#tabela_chamado tbody").append(dados);
                                         $("#mensagem_pesquisa").html("");
-                                        $("#id_chamado").val("");
+                                        $("#pesq_id_chamado").val("");
 
                                     }
                                     else {
 
                                         $("#mensagem_pesquisa").html("Nenhum Chamado encontrado.");
                                         $("#tabela_chamado tbody").empty();
-                                        $("#id_chamado").val("");
+                                        $("#pesq_id_chamado").val("");
                                     }
                                 },
                                 error: function (e) {
@@ -222,6 +222,83 @@
                             });
                     });
             });
+
+        function editFunction(Id) {
+
+            function formatData(jsonDateString) {
+                var data = new Date(parseInt(jsonDateString.replace('/Date(', '')));
+                var localData = data.toLocaleDateString();
+                return localData;
+            }
+
+            $('#janela_edicao').modal('show');
+
+            $('#id_chamado').attr('value', Id);
+
+            var Model = {
+                IdChamado: Id
+            }
+
+            $.ajax(
+                        {
+                            type: "POST",
+                            url: "../LoggedFuncionario/EdicaoChamado",
+                            data: Model,
+                            success: function (lista) {
+
+                                $("#id_chamado").val(lista.IdChamado);
+                                $("#assunto_chamado").val(lista.Assunto);
+                                $("#desc_chamado").val(lista.Descricao);
+                                $("#situacao_chamado").val(lista.Situacao);
+                                $("#data_abertura").val(formatData(lista.DataAbertura));
+                                $("#data_fechamento").val(lista.DataFechamento);
+                                $("#solucao_chamado").val(lista.Solucao);
+                                $("#cliente_nome").val(lista.Cliente_Nome);
+                                $("#funcionario_nome").val(lista.Funcionario_Nome);
+
+                            },
+                            error: function (e) {
+                                $("#mensagem_pesquisa").html(e.status);
+                            }
+                        })
+
+            $("#btnedicao_chamado").click(
+                function () {
+
+                    var Model = {
+                        IdChamado: $("#id_chamado").val(),
+                        Solucao: $("#solucao_chamado").val()
+                    };
+
+                    $.ajax(
+                        {
+                            type: "POST",
+                            url: "../LoggedFuncionario/EditarChamado",
+                            data: Model,
+                            success: function (msg) {
+
+                                $('#janela_edicao').modal('hide');
+                                $("#mensagem_pesquisa").html(msg);
+
+                                window.setTimeout(
+                                    function () {
+                                        location.reload()
+                                    }, 5000)
+                            },
+                            error: function (e) {
+                                $("#mensagem_pesquisa").html(e.status);
+                            }
+                        })
+
+                });
+
+            $("#btncancelar").click(
+                function () {
+
+                    $('#janela_edicao').modal('hide');
+
+                });
+        }
     </script>
 }
 
@@ -233,7 +310,7 @@
             <p>
                 <h4>Consulta por Código:</h4>
             </p>
-            <input type="text" placeholder="Código" id="id_chamado" class="form-control" />
+            <input type="text" placeholder="Código" id="pesq_id_chamado" class="form-control" />
             <br />
             <button id="btnpesquisa_chamado" class="btn btn-primary btn-block">
                 Pesquisar
@@ -314,6 +391,83 @@
 
                     <button id="btnpesq_data_abertura" class="btn btn-info glyphicon glyphicon-ok">
                         Pesquisar
+                    </button>
+
+                    <button id="btncancelar" class="btn btn-danger glyphicon glyphicon-remove">
+                        Cancelar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="janela_edicao" class="modal fade">
+    <div class="modal-dialog modal-lg">
+        <div class="col-md-6">
+            <div class="modal-content">
+
+                <div class="modal-header bg-info" style="text-align:center">
+                    <h4>Informações do Chamado</h4>
+                </div>
+
+                <div class="modal-body">
+
+                    <label>Código:</label>
+                    <input type="text" id="id_chamado" class="form-control" readonly />
+                    <br />
+
+                    <label>Cliente:</label>
+                    <input type="text" id="cliente_nome" class="form-control" readonly />
+                    <br />
+
+                    <label>Data de Abertura:</label>
+                    <input type="text" id="data_abertura" class="form-control" readonly />
+                    <br />
+
+                    <label>Assunto:</label>
+                    <input type="text" id="assunto_chamado" class="form-control" readonly />
+                    <br />
+
+                    <label>Descrição:</label>
+                    <textarea id="desc_chamado" rows="10" cols="73" style="overflow:auto;resize:none" class="form-control" readonly></textarea>
+                    <br />
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="modal-content">
+
+                <div class="modal-header bg-info" style="text-align:center">
+                    <br />
+                    <br />
+                </div>
+
+                <div class="modal-body">
+
+                    <label>Situação:</label>
+                    <input type="text" id="situacao_chamado" class="form-control" readonly />
+                    <br />
+
+                    <label>Funcionário:</label>
+                    <input type="text" id="funcionario_nome" class="form-control" readonly placeholder="Chamado em aberto" />
+                    <br />
+
+                    <label>Data de Fechamento:</label>
+                    <input type="text" id="data_fechamento" class="form-control" readonly placeholder="Chamado em aberto" />
+                    <br />
+
+                    <label>Solução:</label>
+                    <textarea id="solucao_chamado" rows="10" cols="73" style="overflow:auto;resize:none" class="form-control" placeholder="Digite aqui a solução encontrada..."></textarea>
+                    <br />
+                    <br />
+                </div>
+
+                <div class="modal-footer">
+
+                    <button id="btnedicao_chamado" class="btn btn-info glyphicon glyphicon-ok">
+                        Fechar Chamado
                     </button>
 
                     <button id="btncancelar" class="btn btn-danger glyphicon glyphicon-remove">

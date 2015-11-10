@@ -43,6 +43,7 @@
                                             dados += "<td align='center'>" + formatData(lista[i].DataAbertura) + "</td>";
                                             dados += "<td align='center'>" + lista[i].Cliente_Nome + "</td>";
                                             dados += "<td align='center'>" + '<a  class="btn btn-info glyphicon glyphicon-zoom-in" onclick="editFunction(\'' + lista[i].IdChamado + '\')">' + " Visualizar" + "</a>" + "</td>";
+                                            dados += "<td align='center'>" + '<a  class="btn btn-info glyphicon glyphicon-zoom-in" onclick="pdfFunction(\'' + lista[i].IdChamado + '\')">' + " Gerar PDF" + "</a>" + "</td>";
                                             dados += "</tr>";
                                         }
 
@@ -298,6 +299,67 @@
                     $('#janela_edicao').modal('hide');
 
                 });
+        }
+
+        function pdfFunction(Id) {
+
+            function formatData(jsonDateString) {
+                var data = new Date(parseInt(jsonDateString.replace('/Date(', '')));
+                var localData = data.toLocaleDateString();
+                return localData;
+            }
+
+            $('#id_chamado').attr('value', Id);
+
+            var Model = {
+                IdChamado: Id
+            }
+
+            $.ajax(
+                        {
+                            type: "POST",
+                            url: "../LoggedFuncionario/GerarPDF",
+                            data: Model,
+                            success: function (lista) {
+
+                                var doc = new jsPDF();
+
+                                doc.text(80, 10, 'Relatório em PDF');
+
+                                doc.text(10, 30, 'Chamado Número:');
+                                doc.text(60, 30, lista.IdChamado.toString());
+
+                                doc.text(10, 40, 'Situação');
+                                doc.text(60, 40, lista.Situacao);
+
+                                doc.text(10, 50, 'Cliente:');
+                                doc.text(60, 50, lista.Cliente_Nome);
+
+                                doc.text(10, 60, 'Data de Abertura:');
+                                doc.text(60, 60, formatData(lista.DataAbertura));
+                                
+                                doc.text(10, 70, 'Assunto:');
+                                doc.text(60, 70, lista.Assunto);
+
+                                doc.text(10, 80, 'Descrição');
+                                doc.text(60, 80, lista.Descricao);
+                                
+                                //doc.setFont("times");
+                                //doc.setFontType("italic");
+                                 //append email id in pdf  
+                                doc.setFontType("bold");
+                                doc.setTextColor(255, 0, 0); //set font color to red  
+                                
+                                //doc.text(100, 20, 'teste_sobrenome'); //append last name in pdf  
+                                doc.addPage(); // add new page in pdf  
+                                doc.setTextColor(165, 0, 0);
+                                doc.text(10, 20, 'extra page to write');
+                                doc.save('katara.pdf'); // Save the PDF with name "katara"...  
+                            },
+                            error: function (e) {
+                                $("#mensagem_pesquisa").html(e.status);
+                            }
+                        })
         }
     </script>
 }

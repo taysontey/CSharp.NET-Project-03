@@ -56,8 +56,7 @@ namespace Projeto.Web.Areas.LoggedFuncionario.Controllers
                 Chamado chamado = d.FindById(model.IdChamado);
 
                 if(chamado.Situacao.Equals("Aberto"))
-                {
-                    //model.IdChamado = chamado.IdChamado;
+                {                   
                     model.Assunto = chamado.Assunto;
                     model.Descricao = chamado.Descricao;
                     model.Situacao = chamado.Situacao;
@@ -68,8 +67,7 @@ namespace Projeto.Web.Areas.LoggedFuncionario.Controllers
                     return Json(model);
                 }
                 else
-                {
-                    //model.IdChamado = chamado.IdChamado;
+                {                  
                     model.Assunto = chamado.Assunto;
                     model.Descricao = chamado.Descricao;
                     model.Situacao = chamado.Situacao;
@@ -285,6 +283,32 @@ namespace Projeto.Web.Areas.LoggedFuncionario.Controllers
             {
                 return Json(e.Message);
             }
+        }
+
+        #endregion
+
+        #region PDF
+        
+        public JsonResult GerarPDF(ChamadoModelEdicao model)
+        {
+            Funcionario f = (Funcionario)Session["funcionariologado"];
+
+            ChamadoDal d = new ChamadoDal();
+
+            Chamado chamado = d.FindById(model.IdChamado);
+
+            model.IdChamado = chamado.IdChamado;
+            model.Assunto = chamado.Assunto;
+            model.Descricao = chamado.Descricao;
+            model.Situacao = chamado.Situacao;
+            model.DataAbertura = chamado.DataAbertura;
+            model.DataFechamento = chamado.DataFechamento.ToString("dd/MM/yyyy");
+            model.Solucao = chamado.Solucao;
+            model.Cliente_Nome = chamado.Cliente.Nome;
+            //model.Funcionario_Nome = chamado.Funcionario.Nome;
+
+            return Json(model);
+
         }
 
         #endregion

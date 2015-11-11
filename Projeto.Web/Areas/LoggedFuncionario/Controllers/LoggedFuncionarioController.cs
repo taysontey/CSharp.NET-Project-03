@@ -244,17 +244,7 @@ namespace Projeto.Web.Areas.LoggedFuncionario.Controllers
 
                         list.Add(resultado);
                     }
-                    //ChamadoModelResultado resultado = new ChamadoModelResultado();
-
-                    //resultado.IdChamado = chamado.IdChamado;
-                    //resultado.Assunto = chamado.Assunto;
-                    //resultado.Situacao = chamado.Situacao;
-                    //resultado.DataAbertura = chamado.DataAbertura;
-                    //resultado.Cliente_Nome = chamado.Cliente.Nome;
-
-                    //list.Add(resultado);
                 }
-
                 return Json(list);
             }
             catch (Exception e)
@@ -275,17 +265,36 @@ namespace Projeto.Web.Areas.LoggedFuncionario.Controllers
 
                 foreach (Chamado chamado in lista)
                 {
-                    ChamadoModelResultado resultado = new ChamadoModelResultado();
+                    if (chamado.Situacao.Equals("Aberto"))
+                    {
+                        ChamadoModelResultado resultado = new ChamadoModelResultado();
 
-                    resultado.IdChamado = chamado.IdChamado;
-                    resultado.Assunto = chamado.Assunto;
-                    resultado.Situacao = chamado.Situacao;
-                    resultado.DataAbertura = chamado.DataAbertura;
-                    resultado.Cliente_Nome = chamado.Cliente.Nome;
+                        resultado.IdChamado = chamado.IdChamado;
+                        resultado.Assunto = chamado.Assunto;
+                        resultado.Descricao = chamado.Descricao;
+                        resultado.Situacao = chamado.Situacao;
+                        resultado.DataAbertura = chamado.DataAbertura;
+                        resultado.Cliente_Nome = chamado.Cliente.Nome;
 
-                    list.Add(resultado);
+                        list.Add(resultado);
+                    }
+                    else
+                    {
+                        ChamadoModelResultado resultado = new ChamadoModelResultado();
+
+                        resultado.IdChamado = chamado.IdChamado;
+                        resultado.Assunto = chamado.Assunto;
+                        resultado.Descricao = chamado.Descricao;
+                        resultado.Situacao = chamado.Situacao;
+                        resultado.DataAbertura = chamado.DataAbertura;
+                        resultado.Solucao = chamado.Solucao;
+                        resultado.Cliente_Nome = chamado.Cliente.Nome;
+                        resultado.Funcionario_Nome = chamado.Funcionario.Nome;
+                        resultado.DataFechamento = chamado.DataFechamento.ToString("dd/MM/yyyy");
+
+                        list.Add(resultado);
+                    }
                 }
-
                 return Json(list);
             }
             catch (Exception e)

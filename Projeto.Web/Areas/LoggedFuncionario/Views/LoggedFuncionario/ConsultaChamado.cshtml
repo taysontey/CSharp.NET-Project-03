@@ -55,65 +55,8 @@
                                         $("#btnPDF_ID").click(
                                             function () {
 
-                                                var doc = new jsPDF();
+                                                pdfFunction(lista);
 
-                                                doc.text(80, 10, 'Relatório em PDF');
-                                                doc.setFontType("italic");
-
-                                                doc.setLineWidth(0.5);
-                                                doc.line(10, 20, 200, 20);
-
-                                                doc.text(10, 30, 'Chamado Número:');
-                                                doc.text(70, 30, lista[0].IdChamado.toString());
-
-                                                if (lista[0].Situacao == "Aberto") {
-                                                    doc.text(10, 40, 'Situação');
-                                                    doc.text(70, 40, lista[0].Situacao);
-
-                                                    doc.text(10, 50, 'Cliente:');
-                                                    doc.text(70, 50, lista[0].Cliente_Nome);
-
-                                                    doc.text(10, 60, 'Data de Abertura:');
-                                                    doc.text(70, 60, formatData(lista[0].DataAbertura));
-
-                                                    doc.text(10, 70, 'Assunto:');
-                                                    doc.text(70, 70, lista[0].Assunto);
-
-                                                    doc.text(10, 80, 'Descrição');
-                                                    doc.text(70, 80, lista[0].Descricao);
-
-                                                    doc.setLineWidth(0.5);
-                                                    doc.line(10, 90, 200, 90);
-                                                }
-                                                else {
-                                                    doc.text(10, 40, 'Situação');
-                                                    doc.text(70, 40, lista[0].Situacao);
-
-                                                    doc.text(10, 50, 'Cliente:');
-                                                    doc.text(70, 50, lista[0].Cliente_Nome);
-
-                                                    doc.text(10, 60, 'Data de Abertura:');
-                                                    doc.text(70, 60, formatData(lista[0].DataAbertura));
-
-                                                    doc.text(10, 70, 'Data de Fechamento:');
-                                                    doc.text(70, 70, lista[0].DataFechamento.toString("dd/MM/yyyy"));
-
-                                                    doc.text(10, 80, 'Assunto:');
-                                                    doc.text(70, 80, lista[0].Assunto);
-
-                                                    doc.text(10, 90, 'Descrição');
-                                                    doc.text(70, 90, lista[0].Descricao);
-
-                                                    doc.text(10, 110, 'Funcionário:');
-                                                    doc.text(70, 110, lista[0].Funcionario_Nome);
-
-                                                    doc.text(10, 120, 'Solução:');
-                                                    doc.text(70, 120, lista[0].Solucao);
-
-                                                    doc.setLineWidth(0.5);
-                                                    doc.line(10, 130, 200, 130);
-                                                }
-                                                doc.save('Relatorio.pdf');
                                             });
                                     }
                                     else {
@@ -157,57 +100,22 @@
                                             dados += "<td align='center'>" + lista[i].Situacao + "</td>";
                                             dados += "<td align='center'>" + formatData(lista[i].DataAbertura) + "</td>";
                                             dados += "<td align='center'>" + lista[i].Cliente_Nome + "</td>";
-                                            dados += "<td align='center'>" + '<a  class="btn btn-info glyphicon glyphicon-zoom-in" onclick="editFunction(\'' + lista[i].IdChamado + '\')">' + " Visualizar" + "</a>" + "</td>";
+                                            dados += "<td align='center'>" + '<a  class="btn btn-info btn-sm glyphicon glyphicon-zoom-in" onclick="editFunction(\'' + lista[i].IdChamado + '\')">' + " Visualizar" + "</a>" + "</td>";
                                             dados += "</tr>";
                                         }
 
-                                        dados += "<td align='center'>" + "<button id='btnPDF_Situacao' class='btn btn-success btn-md glyphicon glyphicon-download-alt'>" + ' Gerar Relatório PDF' + "</button>" + "</td>";
+                                        dados += "<td align='center'>" + "<button id='btnPDF_Lista' class='btn btn-success btn-md glyphicon glyphicon-download-alt'>" + ' Gerar Relatório PDF' + "</button>" + "</td>";
 
                                         $("#tabela_chamado tbody").empty();
                                         $("#tabela_chamado tbody").append(dados);
                                         $("#mensagem_pesquisa").html("");
 
-                                        $("#btnPDF_Situacao").click(
+                                        $("#btnPDF_Lista").click(
                                             function () {
 
-                                                var doc = new jsPDF();
+                                                pdfFunction(lista);
 
-                                                doc.text(80, 10, 'Relatório em PDF');
-                                                doc.setFontType("italic");
-
-                                                doc.setLineWidth(0.5);
-                                                doc.line(10, 30, 200, 30);
-
-                                                var x = 10; //distancia da lateral ->
-                                                var y = 70; //distancia da lateral para valor ------->
-                                                var z = 30; //distancia para baixo
-
-                                                for (i = 0; i < lista.length ; i++) {
-
-                                                    doc.text(x, z += 10, 'Chamado Número:');
-                                                    doc.text(y, z, lista[i].IdChamado.toString());
-
-                                                    doc.text(x, z += 10, 'Situação');
-                                                    doc.text(y, z, lista[i].Situacao);
-
-                                                    doc.text(x, z += 10, 'Cliente:');
-                                                    doc.text(y, z, lista[i].Cliente_Nome);
-
-                                                    doc.text(x, z += 10, 'Data de Abertura:');
-                                                    doc.text(y, z, formatData(lista[i].DataAbertura));
-
-                                                    doc.text(x, z += 10, 'Assunto:');
-                                                    doc.text(y, z, lista[i].Assunto);
-
-                                                    doc.text(x, z += 10, 'Descrição');
-                                                    doc.text(y, z, lista[i].Descricao);
-
-                                                    doc.setLineWidth(0.5);
-                                                    doc.line(x, z += 10, 200, z);
-                                                }
-
-                                                doc.save('Relatorio.pdf');
-                                            });
+                                            })
                                     }
                                     else {
 
@@ -251,9 +159,19 @@
                                             dados += "</tr>";
                                         }
 
+                                        dados += "<td align='center'>" + "<button id='btnPDF_Lista' class='btn btn-success btn-md glyphicon glyphicon-download-alt'>" + ' Gerar Relatório PDF' + "</button>" + "</td>";
+
+
                                         $("#tabela_chamado tbody").empty();
                                         $("#tabela_chamado tbody").append(dados);
                                         $("#mensagem_pesquisa").html("");
+
+                                        $("#btnPDF_Lista").click(
+                                            function () {
+
+                                                pdfFunction(lista);
+
+                                            })
 
                                     }
                                     else {
@@ -304,11 +222,19 @@
                                             dados += "</tr>";
                                         }
 
+                                        dados += "<td align='center'>" + "<button id='btnPDF_Lista' class='btn btn-success btn-md glyphicon glyphicon-download-alt'>" + ' Gerar Relatório PDF' + "</button>" + "</td>";
+
                                         $("#tabela_chamado tbody").empty();
                                         $("#tabela_chamado tbody").append(dados);
                                         $("#mensagem_pesquisa").html("");
                                         $('#janela_data_abertura').modal('hide');
 
+                                        $("#btnPDF_Lista").click(
+                                            function () {
+
+                                                pdfFunction(lista);
+
+                                            })
                                     }
                                     else {
                                         $('#janela_data_abertura').modal('hide');
@@ -407,6 +333,113 @@
                     $('#janela_edicao').modal('hide');
 
                 });
+        }
+
+        function pdfFunction(lista) {
+
+            function formatData(jsonDateString) {
+                var data = new Date(parseInt(jsonDateString.replace('/Date(', '')));
+                var localData = data.toLocaleDateString();
+                return localData;
+            }
+
+            var doc = new jsPDF();
+            var count = 1;
+
+            doc.setFontSize(15);
+            doc.setFontType("italic");
+
+            doc.text(80, 10, 'Relatório em PDF - Página:');
+            doc.text(150, 10, count.toString());
+
+            doc.setLineWidth(0.5);
+            doc.line(10, 30, 200, 30);
+
+
+            var x = 10; //distancia da lateral ->
+            var y = 70; //distancia da lateral para valor ------->
+            var z = 30; //distancia para baixo
+
+            for (i = 0; i < lista.length ; i++) {
+
+                if (lista[i].Situacao == "Aberto") {
+
+                    doc.text(x, z += 6, 'Chamado Número:');
+                    doc.text(y, z, lista[i].IdChamado.toString());
+
+                    doc.text(x, z += 6, 'Situação:');
+                    doc.text(y, z, lista[i].Situacao);
+
+                    doc.text(x, z += 6, 'Cliente:');
+                    doc.text(y, z, lista[i].Cliente_Nome);
+
+                    doc.text(x, z += 6, 'Data de Abertura:');
+                    doc.text(y, z, formatData(lista[i].DataAbertura));
+
+                    doc.text(x, z += 6, 'Assunto:');
+                    doc.text(y, z, lista[i].Assunto);
+
+                    doc.setLineWidth(0.5);
+                    doc.line(x, z += 6, 200, z);
+
+                    if (z >= 240) {
+
+                        doc.addPage();
+
+                        count += 1;
+
+                        doc.text(80, 10, 'Relatório em PDF - Página:');
+                        doc.text(150, 10, count.toString());
+
+                        doc.setLineWidth(0.5);
+                        doc.line(10, 30, 200, 30);
+
+                        z = 30;
+                    }
+                }
+                else {
+
+                    doc.text(x, z += 6, 'Chamado Número:');
+                    doc.text(y, z, lista[i].IdChamado.toString());
+
+                    doc.text(x, z += 6, 'Situação:');
+                    doc.text(y, z, lista[i].Situacao);
+
+                    doc.text(x, z += 6, 'Cliente:');
+                    doc.text(y, z, lista[i].Cliente_Nome);
+
+                    doc.text(x, z += 6, 'Data de Abertura:');
+                    doc.text(y, z, formatData(lista[i].DataAbertura));
+
+                    doc.text(x, z += 6, 'Data de Fechamento:');
+                    doc.text(y, z, lista[i].DataFechamento.toString("dd/MM/yyyy"));
+
+                    doc.text(x, z += 6, 'Assunto:');
+                    doc.text(y, z, lista[i].Assunto);
+
+                    doc.text(x, z += 6, 'Funcionário Responsável:');
+                    doc.text(y, z, lista[i].Funcionario_Nome);
+
+                    doc.setLineWidth(0.5);
+                    doc.line(x, z += 6, 200, z);
+
+                    if (z >= 240) {
+
+                        doc.addPage();
+
+                        count += 1;
+
+                        doc.text(80, 10, 'Relatório em PDF - Página:');
+                        doc.text(150, 10, count.toString());
+
+                        doc.setLineWidth(0.5);
+                        doc.line(10, 30, 200, 30);
+
+                        z = 30;
+                    }
+                }
+            }
+            doc.save('Relatorio.pdf');
         }
     </script>
 }

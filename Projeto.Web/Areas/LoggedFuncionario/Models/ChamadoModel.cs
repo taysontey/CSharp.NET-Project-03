@@ -23,9 +23,13 @@ namespace Projeto.Web.Areas.LoggedFuncionario.Models
         public int IdChamado { get; set; }
         public string Situacao { get; set; }
         public string Assunto { get; set; }
+        public string Descricao { get; set; }
         public DateTime DataAbertura { get; set; }
+        public string DataFechamento { get; set; }
+        public string Solucao { get; set; }
         public string Cliente_Nome { get; set; }
         public DateTime DataInicial { get; set; }
         public DateTime DataFinal { get; set; }
+        public string Funcionario_Nome { get; set; }
     }
 }

@@ -55,8 +55,8 @@ namespace Projeto.Web.Areas.LoggedFuncionario.Controllers
 
                 Chamado chamado = d.FindById(model.IdChamado);
 
-                if(chamado.Situacao.Equals("Aberto"))
-                {                   
+                if (chamado.Situacao.Equals("Aberto"))
+                {
                     model.Assunto = chamado.Assunto;
                     model.Descricao = chamado.Descricao;
                     model.Situacao = chamado.Situacao;
@@ -67,7 +67,7 @@ namespace Projeto.Web.Areas.LoggedFuncionario.Controllers
                     return Json(model);
                 }
                 else
-                {                  
+                {
                     model.Assunto = chamado.Assunto;
                     model.Descricao = chamado.Descricao;
                     model.Situacao = chamado.Situacao;
@@ -79,7 +79,7 @@ namespace Projeto.Web.Areas.LoggedFuncionario.Controllers
 
                     return Json(model);
                 }
-                
+
             }
             catch (Exception e)
             {
@@ -97,7 +97,7 @@ namespace Projeto.Web.Areas.LoggedFuncionario.Controllers
 
                 Chamado chamado = d.FindById(model.IdChamado);
 
-                if(chamado.Situacao == "Aberto")
+                if (chamado.Situacao == "Aberto")
                 {
                     chamado.Solucao = model.Solucao;
                     chamado.Situacao = "Fechado";
@@ -112,7 +112,7 @@ namespace Projeto.Web.Areas.LoggedFuncionario.Controllers
                 {
                     return Json("Esse chamado já foi fechado.");
                 }
-                
+
             }
             catch (Exception e)
             {
@@ -167,16 +167,35 @@ namespace Projeto.Web.Areas.LoggedFuncionario.Controllers
 
                 Chamado chamado = d.FindById(model.IdChamado);
 
-                model.IdChamado = chamado.IdChamado;
-                model.Assunto = chamado.Assunto;
-                model.Situacao = chamado.Situacao;
-                model.DataAbertura = chamado.DataAbertura;
-                model.Cliente_Nome = chamado.Cliente.Nome;
+                if (chamado.Situacao.Equals("Aberto"))
+                {
+                    model.Assunto = chamado.Assunto;
+                    model.Descricao = chamado.Descricao;
+                    model.Situacao = chamado.Situacao;
+                    model.DataAbertura = chamado.DataAbertura;
+                    model.Cliente_Nome = chamado.Cliente.Nome;
 
-                List<ChamadoModelResultado> list = new List<ChamadoModelResultado>();
-                list.Add(model);
+                    List<ChamadoModelResultado> list = new List<ChamadoModelResultado>();
+                    list.Add(model);
 
-                return Json(list);
+                    return Json(list);
+                }
+                else
+                {
+                    model.Assunto = chamado.Assunto;
+                    model.Descricao = chamado.Descricao;
+                    model.Situacao = chamado.Situacao;
+                    model.DataAbertura = chamado.DataAbertura;
+                    model.Solucao = chamado.Solucao;
+                    model.Cliente_Nome = chamado.Cliente.Nome;
+                    model.Funcionario_Nome = chamado.Funcionario.Nome;
+                    model.DataFechamento = chamado.DataFechamento.ToString("dd/MM/yyyy");
+
+                    List<ChamadoModelResultado> list = new List<ChamadoModelResultado>();
+                    list.Add(model);
+
+                    return Json(list);
+                } 
             }
             catch (Exception e)
             {
@@ -189,22 +208,51 @@ namespace Projeto.Web.Areas.LoggedFuncionario.Controllers
             try
             {
                 ChamadoDal d = new ChamadoDal();
-                
+
                 List<Chamado> lista = d.FindAllBySituacao(model.Situacao);
 
                 List<ChamadoModelResultado> list = new List<ChamadoModelResultado>();
 
-                foreach(Chamado chamado in lista)
+                foreach (Chamado chamado in lista)
                 {
-                    ChamadoModelResultado resultado = new ChamadoModelResultado();
+                    if (chamado.Situacao.Equals("Aberto"))
+                    {
+                        ChamadoModelResultado resultado = new ChamadoModelResultado();
 
-                    resultado.IdChamado = chamado.IdChamado;
-                    resultado.Assunto = chamado.Assunto;
-                    resultado.Situacao = chamado.Situacao;
-                    resultado.DataAbertura = chamado.DataAbertura;
-                    resultado.Cliente_Nome = chamado.Cliente.Nome;
+                        resultado.IdChamado = chamado.IdChamado;
+                        resultado.Assunto = chamado.Assunto;
+                        resultado.Descricao = chamado.Descricao;
+                        resultado.Situacao = chamado.Situacao;
+                        resultado.DataAbertura = chamado.DataAbertura;
+                        resultado.Cliente_Nome = chamado.Cliente.Nome;
 
-                    list.Add(resultado);
+                        list.Add(resultado);
+                    }
+                    else
+                    {
+                        ChamadoModelResultado resultado = new ChamadoModelResultado();
+
+                        resultado.IdChamado = chamado.IdChamado;
+                        resultado.Assunto = chamado.Assunto;
+                        resultado.Descricao = chamado.Descricao;
+                        resultado.Situacao = chamado.Situacao;
+                        resultado.DataAbertura = chamado.DataAbertura;
+                        resultado.Solucao = chamado.Solucao;
+                        resultado.Cliente_Nome = chamado.Cliente.Nome;
+                        resultado.Funcionario_Nome = chamado.Funcionario.Nome;
+                        resultado.DataFechamento = chamado.DataFechamento.ToString("dd/MM/yyyy");
+
+                        list.Add(resultado);
+                    }
+                    //ChamadoModelResultado resultado = new ChamadoModelResultado();
+
+                    //resultado.IdChamado = chamado.IdChamado;
+                    //resultado.Assunto = chamado.Assunto;
+                    //resultado.Situacao = chamado.Situacao;
+                    //resultado.DataAbertura = chamado.DataAbertura;
+                    //resultado.Cliente_Nome = chamado.Cliente.Nome;
+
+                    //list.Add(resultado);
                 }
 
                 return Json(list);
@@ -287,30 +335,5 @@ namespace Projeto.Web.Areas.LoggedFuncionario.Controllers
 
         #endregion
 
-        #region PDF
-        
-        public JsonResult GerarPDF(ChamadoModelEdicao model)
-        {
-            Funcionario f = (Funcionario)Session["funcionariologado"];
-
-            ChamadoDal d = new ChamadoDal();
-
-            Chamado chamado = d.FindById(model.IdChamado);
-
-            model.IdChamado = chamado.IdChamado;
-            model.Assunto = chamado.Assunto;
-            model.Descricao = chamado.Descricao;
-            model.Situacao = chamado.Situacao;
-            model.DataAbertura = chamado.DataAbertura;
-            model.DataFechamento = chamado.DataFechamento.ToString("dd/MM/yyyy");
-            model.Solucao = chamado.Solucao;
-            model.Cliente_Nome = chamado.Cliente.Nome;
-            //model.Funcionario_Nome = chamado.Funcionario.Nome;
-
-            return Json(model);
-
-        }
-
-        #endregion
     }
 }

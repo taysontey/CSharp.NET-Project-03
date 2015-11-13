@@ -117,6 +117,9 @@
     <Content Include="Scripts\jquery-1.9.1.min.js" />
     <Content Include="Scripts\jspdf\dist\jspdf.debug.js" />
     <Content Include="Scripts\jspdf\dist\jspdf.min.js" />
+    <Content Include="Scripts\sweetAlert\dist\sweetalert-dev.js" />
+    <Content Include="Scripts\sweetAlert\dist\sweetalert.css" />
+    <Content Include="Scripts\sweetAlert\dist\sweetalert.min.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>

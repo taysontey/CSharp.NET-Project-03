@@ -11,20 +11,25 @@
     <script src="~/Scripts/jquery-1.9.1.js"></script>
     <script src="~/Scripts/bootstrap.js"></script>
 
+    <link href="~/Scripts/sweetAlert/dist/sweetalert.css" rel="stylesheet" />
+    <script src="~/Scripts/sweetAlert/dist/sweetalert.min.js"></script>
+
     <script type="text/javascript">
         $(document).ready(
             function () {
 
                 $("#btncadastro_funcionario").click(
                     function () {
-                        
+
+                        if ($("#senha_funcionario").val() == $("#confirm_senha").val()) {
+
                             var Model = {
                                 Nome: $("#nome_funcionario").val(),
                                 Sobrenome: $("#sobrenome_funcionario").val(),
                                 Login: $("#login_funcionario").val(),
                                 Senha: $("#senha_funcionario").val()
                             };
-
+                            
                             $.ajax(
                                 {
                                     type: "POST",
@@ -32,23 +37,28 @@
                                     data: Model,
                                     success: function (msg) {
 
-                                        $("#mensagem_funcionario").html(msg);
+                                        swal("", msg);
 
                                         $("#nome_funcionario").val("");
                                         $("#sobrenome_funcionario").val("");
                                         $("#login_funcionario").val("");
                                         $("#senha_funcionario").val("");
                                         $("#confirm_senha").val("");
-                                       
+
                                     },
                                     error: function (e) {
                                         $("#mensagem_funcionario").html(e.status);
                                     }
                                 })
+                        }
+                        else {
+                            swal("", "As senhas não correspondem", "error");
+                        }
                     });
             });
     </script>
 </head>
+
 <body>
     <br />
     <div class="container">
@@ -59,19 +69,19 @@
                         Dados Pessoais:
                     </div>
                     <div class="panel-body">
-                       
+
                         <input type="text" id="nome_funcionario" class="form-control" placeholder="Nome" />
                         <br />
-                       
+
                         <input type="text" id="sobrenome_funcionario" class="form-control" placeholder="Sobrenome" />
                         <br />
-                   
+
                         <input type="text" id="login_funcionario" class="form-control" placeholder="Login" />
                         <br />
-                      
+
                         <input type="password" id="senha_funcionario" class="form-control" placeholder="Senha" />
                         <br />
-                       
+
                         <input type="password" id="confirm_senha" class="form-control" placeholder="Confirme sua Senha" />
                         <br />
 

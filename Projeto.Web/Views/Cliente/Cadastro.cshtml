@@ -11,62 +11,71 @@
     <script src="~/Scripts/jquery-1.9.1.js"></script>
     <script src="~/Scripts/bootstrap.js"></script>
 
+    <link href="~/Scripts/sweetAlert/dist/sweetalert.css" rel="stylesheet" />
+    <script src="~/Scripts/sweetAlert/dist/sweetalert.min.js"></script>
+
     <script type="text/javascript">
         $(document).ready(
             function () {
 
                 $("#btncadastro_cliente").click(
                     function () {
-                        
-                        var Model = {
-                            Nome: $("#nome_cliente").val(),
-                            Sobrenome: $("#sobrenome_cliente").val(),
-                            DataNascimento: $("#data_nascimento").val(),
-                            Sexo: document.getElementById("DropDownSexo").value,
-                            Login: $("#login_cliente").val(),
-                            Senha: $("#senha_cliente").val(),
-                            Logradouro: $("#logradouro").val(),
-                            Bairro: $("#bairro").val(),
-                            CEP: $("#cep").val(),
-                            Cidade: $("#cidade").val(),
-                            Estado: document.getElementById("DropDownEstado").value,
-                            Tipo1: document.getElementById("DropDownTipo1").value,
-                            Numero1: $("#numero1").val(),
-                            Tipo2: document.getElementById("DropDownTipo2").value,
-                            Numero2: $("#numero2").val(),
-                        };
 
-                        $.ajax(
-                            {
-                                type: "POST",
-                                url: "/Cliente/Cadastrar",
-                                data: Model,
-                                success: function (msg) {
+                        if ($("#senha_cliente").val() == $("#confirm_senha").val()) {
 
-                                    $("#mensagem_cliente").html(msg);
+                            var Model = {
+                                Nome: $("#nome_cliente").val(),
+                                Sobrenome: $("#sobrenome_cliente").val(),
+                                DataNascimento: $("#data_nascimento").val(),
+                                Sexo: document.getElementById("DropDownSexo").value,
+                                Login: $("#login_cliente").val(),
+                                Senha: $("#senha_cliente").val(),
+                                Logradouro: $("#logradouro").val(),
+                                Bairro: $("#bairro").val(),
+                                CEP: $("#cep").val(),
+                                Cidade: $("#cidade").val(),
+                                Estado: document.getElementById("DropDownEstado").value,
+                                Tipo1: document.getElementById("DropDownTipo1").value,
+                                Numero1: $("#numero1").val(),
+                                Tipo2: document.getElementById("DropDownTipo2").value,
+                                Numero2: $("#numero2").val(),
+                            };
 
-                                    $("#nome_cliente").val("");
-                                    $("#sobrenome_cliente").val("");
-                                    $("#data_nascimento").val("");
-                                    document.getElementById("DropDownSexo").selectedIndex = 0;
-                                    $("#login_cliente").val("");
-                                    $("#senha_cliente").val("");
-                                    $("#confirm_senha").val("");
-                                    $("#logradouro").val("");
-                                    $("#bairro").val("");
-                                    $("#cep").val("");
-                                    $("#cidade").val("");
-                                    document.getElementById("DropDownEstado").selectedIndex = 0;
-                                    document.getElementById("DropDownTipo1").selectedIndex = 0;
-                                    $("#numero1").val("");
-                                    document.getElementById("DropDownTipo2").selectedIndex = 0;
-                                    $("#numero2").val("");
+                            $.ajax(
+                                {
+                                    type: "POST",
+                                    url: "/Cliente/Cadastrar",
+                                    data: Model,
+                                    success: function (msg) {
 
-                                },
-                                error: function (e) {
-                                    $("#mensagem_cliente").html(e.status);
-                                }
-                            })
+                                        swal("", msg);
+
+                                        $("#nome_cliente").val("");
+                                        $("#sobrenome_cliente").val("");
+                                        $("#data_nascimento").val("");
+                                        document.getElementById("DropDownSexo").selectedIndex = 0;
+                                        $("#login_cliente").val("");
+                                        $("#senha_cliente").val("");
+                                        $("#confirm_senha").val("");
+                                        $("#logradouro").val("");
+                                        $("#bairro").val("");
+                                        $("#cep").val("");
+                                        $("#cidade").val("");
+                                        document.getElementById("DropDownEstado").selectedIndex = 0;
+                                        document.getElementById("DropDownTipo1").selectedIndex = 0;
+                                        $("#numero1").val("");
+                                        document.getElementById("DropDownTipo2").selectedIndex = 0;
+                                        $("#numero2").val("");
+
+                                    },
+                                    error: function (e) {
+                                        $("#mensagem_cliente").html(e.status);
+                                    }
+                                })
+                        }
+                        else {
+                            swal("", "As senhas não correspondem", "error");
+                        }                    
                     });
             });
     </script>

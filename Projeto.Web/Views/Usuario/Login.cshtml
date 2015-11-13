@@ -17,6 +17,9 @@
     <script src="~/Scripts/jquery-1.9.1.js"></script>
     <script src="~/Scripts/bootstrap.js"></script>
 
+    <link href="~/Scripts/sweetAlert/dist/sweetalert.css" rel="stylesheet" />
+    <script src="~/Scripts/sweetAlert/dist/sweetalert.min.js"></script>
+
     <script type="text/javascript">
         $(document).ready(
             function () {
@@ -24,34 +27,38 @@
                 $("#btnautenticar_usuario").click(
                     function () {
 
-                        var Model = {
-                            Login: $("#login_usuario").val(),
-                            Senha: $("#senha_usuario").val(),
-                            ManterConectado: $("#manter_conectado").is(":checked")
-                        };
+                        if ($("#login_usuario").val() != "" && $("#senha_usuario").val() != "") {
 
-                        $.ajax(
-                            {
-                                type: "POST",
-                                url: "/Usuario/AutenticarUsuario",
-                                data: Model,
-                                success: function (json) {
-                                    if (json.isRedirect) {
-                                        window.location.href = json.redirectUrl;
+                            var Model = {
+                                Login: $("#login_usuario").val(),
+                                Senha: $("#senha_usuario").val(),
+                                ManterConectado: $("#manter_conectado").is(":checked")
+                            };
+
+                            $.ajax(
+                                {
+                                    type: "POST",
+                                    url: "/Usuario/AutenticarUsuario",
+                                    data: Model,
+                                    success: function (json) {
+                                        if (json.isRedirect) {
+                                            window.location.href = json.redirectUrl;
+                                        }
+                                        else {
+                                            swal("", json, "error");
+                                        }
+                                    },
+                                    error: function (e) {
+                                        $("#mensagem_usuario").html(e.status);
                                     }
-                                    else {
-                                        $("#mensagem_usuario").html(json);
-                                    }
-                                },
-                                error: function (e) {
-                                    $("#mensagem_usuario").html(e.status);
-                                }
-                            })
+                                })
+                        }
+                        else {
+                            swal("", "Login ou Senha incorretos, tente novamente.", "error");
+                        }           
                     });
             });
-
     </script>
-
 </head>
 
 <body>

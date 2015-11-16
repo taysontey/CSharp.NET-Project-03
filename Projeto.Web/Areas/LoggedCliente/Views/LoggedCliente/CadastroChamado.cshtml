@@ -12,28 +12,54 @@
                 $("#btnabrir_chamado").click(
                     function () {
                         
-                        var Model = {
-                            Assunto: $("#assunto_chamado").val(),
-                            Descricao: $("#desc_chamado").val()
-                        };
+                        if (validateFields() == true) {
 
-                        $.ajax(
-                            {
-                                type: "POST",
-                                url: "../LoggedCliente/AbrirChamado",
-                                data: Model,
-                                success: function (msg) {
-                                    $("#mensagem_chamado").html(msg);
+                            var Model = {
+                                Assunto: $("#assunto_chamado").val(),
+                                Descricao: $("#desc_chamado").val()
+                            };
 
-                                    $("#assunto_chamado").val("")
-                                    $("#desc_chamado").val("")
-                                },
-                                error: function (e) {
-                                    $("#mensagem_chamado").html(e.status);
-                                }
-                            })
+                            $.ajax(
+                                {
+                                    type: "POST",
+                                    url: "../LoggedCliente/AbrirChamado",
+                                    data: Model,
+                                    success: function (msg) {
+                                        
+                                        swal("", msg, "success");
+
+                                        $("#assunto_chamado").val("")
+                                        $("#desc_chamado").val("")
+                                    },
+                                    error: function (e) {
+                                        $("#mensagem_chamado").html(e.status);
+                                    }
+                                })
+                        }
+                        else
+                        {
+                            swal("", "Preencha os campos corretamente", "error");
+                        }
                     });
             });
+
+        function validateFields() {
+
+            $("#assunto_error").html("");
+            $("#desc_error").html("");
+           
+            if ($("#assunto_chamado").val() == null || $("#assunto_chamado").val() == "") {
+                $("#assunto_error").html("Campo Assunto é obrigatório.");
+                return false;
+            }
+            if ($("#desc_chamado").val() == null || $("#desc_chamado").val() == "") {
+                $("#desc_error").html("Campo Descrição é obrigatório.");
+                return false;
+            }
+            else {
+                return true;
+            }
+        }
     </script>
 }
 
@@ -47,12 +73,14 @@
                 <div class="panel-body">
                     <label>Assunto:</label>
                     <input type="text" id="assunto_chamado" class="form-control" placeholder="Ex: Instalação de Software, Instalação de Hardware, Internet, etc..." />
+                    <span id="assunto_error" style="color:red;font-style:italic"></span>
                     <br />
 
                     <label>Descrição:</label>
                     <textarea id="desc_chamado" rows="10" cols="100" placeholder=" Descreva o problema aqui..."></textarea>
-                    
+                    <span id="desc_error" style="color:red;font-style:italic"></span>
                     <br />
+
                 </div>
                 <div class="panel-footer" style="text-align:right">
                     <button id="btnabrir_chamado" style="width:200px" class=" btn btn-info glyphicon glyphicon-plus-sign">

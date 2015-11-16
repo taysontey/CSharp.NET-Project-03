@@ -21,7 +21,7 @@
                 $("#btncadastro_funcionario").click(
                     function () {
 
-                        if (validate() == true) {
+                        if (validateFields() == true) {
 
                             if ($("#senha_funcionario").val() == $("#confirm_senha").val()) {
 
@@ -65,7 +65,7 @@
 
                     });
             });
-        function validate() {
+        function validateFields() {
 
             $("#nome_error").html("");
             $("#sobrenome_error").html("");

@@ -21,41 +21,77 @@
                 $("#btncadastro_funcionario").click(
                     function () {
 
-                        if ($("#senha_funcionario").val() == $("#confirm_senha").val()) {
+                        if (validate() == true) {
 
-                            var Model = {
-                                Nome: $("#nome_funcionario").val(),
-                                Sobrenome: $("#sobrenome_funcionario").val(),
-                                Login: $("#login_funcionario").val(),
-                                Senha: $("#senha_funcionario").val()
-                            };
-                            
-                            $.ajax(
-                                {
-                                    type: "POST",
-                                    url: "/Funcionario/Cadastrar",
-                                    data: Model,
-                                    success: function (msg) {
+                            if ($("#senha_funcionario").val() == $("#confirm_senha").val()) {
 
-                                        swal("", msg);
+                                var Model = {
+                                    Nome: $("#nome_funcionario").val(),
+                                    Sobrenome: $("#sobrenome_funcionario").val(),
+                                    Login: $("#login_funcionario").val(),
+                                    Senha: $("#senha_funcionario").val()
+                                };
 
-                                        $("#nome_funcionario").val("");
-                                        $("#sobrenome_funcionario").val("");
-                                        $("#login_funcionario").val("");
-                                        $("#senha_funcionario").val("");
-                                        $("#confirm_senha").val("");
+                                $.ajax(
+                                    {
+                                        type: "POST",
+                                        url: "/Funcionario/Cadastrar",
+                                        data: Model,
+                                        success: function (msg) {
 
-                                    },
-                                    error: function (e) {
-                                        $("#mensagem_funcionario").html(e.status);
-                                    }
-                                })
+                                            swal("", msg);
+
+                                            $("#nome_funcionario").val("");
+                                            $("#sobrenome_funcionario").val("");
+                                            $("#login_funcionario").val("");
+                                            $("#senha_funcionario").val("");
+                                            $("#confirm_senha").val("");
+
+                                        },
+                                        error: function (e) {
+                                            $("#mensagem_funcionario").html(e.status);
+                                        }
+                                    })
+                            }
+                            else {
+                                swal("", "As senhas não correspondem", "error");
+                            }
+
                         }
                         else {
-                            swal("", "As senhas não correspondem", "error");
+                            swal("", "Preencha os campos corretamente", "error");
                         }
+
+
                     });
             });
+        function validate() {
+
+            $("#nome_error").html("");
+            $("#sobrenome_error").html("");
+            $("#login_error").html("");
+            $("#senha_error").html("");
+
+            if ($("#nome_funcionario").val() == null || $("#nome_funcionario").val() == "") {
+                $("#nome_error").html("Campo Nome é obrigatório.");
+                return false;
+            }
+            if ($("#sobrenome_funcionario").val() == null || $("#sobrenome_funcionario").val() == "") {
+                $("#sobrenome_error").html("Campo Sobrenome é obrigatório.");
+                return false;
+            }
+            if ($("#login_funcionario").val() == null || $("#login_funcionario").val() == "") {
+                $("#login_error").html("Campo Login é obrigatório.");
+                return false;
+            }
+            if ($("#senha_funcionario").val() == null || $("#senha_funcionario").val() == "") {
+                $("#senha_error").html("Campo Senha é obrigatório.");
+                return false;
+            }
+            else {
+                return true;
+            }
+        }
     </script>
 </head>
 
@@ -71,15 +107,19 @@
                     <div class="panel-body">
 
                         <input type="text" id="nome_funcionario" class="form-control" placeholder="Nome" />
+                        <span id="nome_error" style="color:red;font-style:italic"></span>
                         <br />
 
                         <input type="text" id="sobrenome_funcionario" class="form-control" placeholder="Sobrenome" />
+                        <span id="sobrenome_error" style="color:red;font-style:italic"></span>
                         <br />
 
                         <input type="text" id="login_funcionario" class="form-control" placeholder="Login" />
+                        <span id="login_error" style="color:red;font-style:italic"></span>
                         <br />
 
                         <input type="password" id="senha_funcionario" class="form-control" placeholder="Senha" />
+                        <span id="senha_error" style="color:red;font-style:italic"></span>
                         <br />
 
                         <input type="password" id="confirm_senha" class="form-control" placeholder="Confirme sua Senha" />

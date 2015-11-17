@@ -155,7 +155,7 @@
                                             dados += "<td align='center'>" + lista[i].Situacao + "</td>";
                                             dados += "<td align='center'>" + formatData(lista[i].DataAbertura) + "</td>";
                                             dados += "<td align='center'>" + lista[i].Cliente_Nome + "</td>";
-                                            dados += "<td align='center'>" + '<a  class="btn btn-info glyphicon glyphicon-zoom-in" onclick="editFunction(\'' + lista[i].IdChamado + '\')">' + " Visualizar" + "</a>" + "</td>";
+                                            dados += "<td align='center'>" + '<a  class="btn btn-info btn-sm glyphicon glyphicon-zoom-in" onclick="editFunction(\'' + lista[i].IdChamado + '\')">' + " Visualizar" + "</a>" + "</td>";
                                             dados += "</tr>";
                                         }
 
@@ -186,76 +186,64 @@
                             });
                     });
 
-                $("#btndata_abertura").click(
+
+                $("#btnpesq_data_abertura").click(
                     function () {
 
-                        $('#janela_data_abertura').modal('show');
+                        var Model = {
+                            DataInicial: $("#inicial_abertura").val(),
+                            DataFinal: $("#final_abertura").val()
+                        };
 
-                        $("#btnpesq_data_abertura").click(
-                            function () {
+                        $.ajax(
+                    {
+                        type: "POST",
+                        url: "../LoggedFuncionario/ConsultarChamado_DataAbertura",
+                        data: Model,
+                        success: function (lista) {
 
-                                var Model = {
-                                    DataInicial: $("#inicial_abertura").val(),
-                                    DataFinal: $("#final_abertura").val()
-                                };
+                            if (lista.length != 0) {
 
-                                $.ajax(
-                            {
-                                type: "POST",
-                                url: "../LoggedFuncionario/ConsultarChamado_DataAbertura",
-                                data: Model,
-                                success: function (lista) {
+                                var dados = "";
 
-                                    if (lista.length != 0) {
+                                for (var i = 0; i < lista.length; i++) {
 
-                                        var dados = "";
-
-                                        for (var i = 0; i < lista.length; i++) {
-
-                                            dados += "<tr>";
-                                            dados += "<td align='center'>" + lista[i].IdChamado + "</td>";
-                                            dados += "<td align='center'>" + lista[i].Assunto + "</td>";
-                                            dados += "<td align='center'>" + lista[i].Situacao + "</td>";
-                                            dados += "<td align='center'>" + formatData(lista[i].DataAbertura) + "</td>";
-                                            dados += "<td align='center'>" + lista[i].Cliente_Nome + "</td>";
-                                            dados += "<td align='center'>" + '<a  class="btn btn-info glyphicon glyphicon-zoom-in" onclick="editFunction(\'' + lista[i].IdChamado + '\')">' + " Visualizar" + "</a>" + "</td>";
-                                            dados += "</tr>";
-                                        }
-
-                                        dados += "<td align='center'>" + "<button id='btnPDF_Lista' class='btn btn-success btn-md glyphicon glyphicon-download-alt'>" + ' Gerar Relatório PDF' + "</button>" + "</td>";
-
-                                        $("#tabela_chamado tbody").empty();
-                                        $("#tabela_chamado tbody").append(dados);
-                                        $("#mensagem_pesquisa").html("");
-                                        $('#janela_data_abertura').modal('hide');
-
-                                        $("#btnPDF_Lista").click(
-                                            function () {
-
-                                                pdfFunction(lista);
-
-                                            })
-                                    }
-                                    else {
-                                        $('#janela_data_abertura').modal('hide');
-                                        $("#mensagem_pesquisa").html("Nenhum Chamado encontrado.");
-                                        $("#tabela_chamado tbody").empty();
-                                    }
-                                },
-                                error: function (e) {
-                                    $("#mensagem_pesquisa").html(e.status);
+                                    dados += "<tr>";
+                                    dados += "<td align='center'>" + lista[i].IdChamado + "</td>";
+                                    dados += "<td align='center'>" + lista[i].Assunto + "</td>";
+                                    dados += "<td align='center'>" + lista[i].Situacao + "</td>";
+                                    dados += "<td align='center'>" + formatData(lista[i].DataAbertura) + "</td>";
+                                    dados += "<td align='center'>" + lista[i].Cliente_Nome + "</td>";
+                                    dados += "<td align='center'>" + '<a  class="btn btn-info glyphicon glyphicon-zoom-in" onclick="editFunction(\'' + lista[i].IdChamado + '\')">' + " Visualizar" + "</a>" + "</td>";
+                                    dados += "</tr>";
                                 }
-                            });
 
-                            })
+                                dados += "<td align='center'>" + "<button id='btnPDF_Lista' class='btn btn-success btn-md glyphicon glyphicon-download-alt'>" + ' Gerar Relatório PDF' + "</button>" + "</td>";
 
-                        $("#btncancelar").click(
-                            function () {
+                                $("#tabela_chamado tbody").empty();
+                                $("#tabela_chamado tbody").append(dados);
+                                $("#mensagem_pesquisa").html("");
+                                $("#inicial_abertura").val("");
+                                $("#final_abertura").val("");
+                                
+                                $("#btnPDF_Lista").click(
+                                    function () {
 
-                                $('#janela_data_abertura').modal('hide');
+                                        pdfFunction(lista);
 
-                            });
+                                    })
+                            }
+                            else {      
+                                $("#mensagem_pesquisa").html("Nenhum Chamado encontrado.");
+                                $("#tabela_chamado tbody").empty();
+                            }
+                        },
+                        error: function (e) {
+                            $("#mensagem_pesquisa").html(e.status);
+                        }
                     });
+
+                    })
             });
 
         function editFunction(Id) {
@@ -313,7 +301,7 @@
                             success: function (msg) {
 
                                 $('#janela_edicao').modal('hide');
-                                $("#mensagem_pesquisa").html(msg);
+                                swal("", msg);
 
                                 window.setTimeout(
                                     function () {
@@ -476,8 +464,13 @@
                 <h4>Consulta por Data:</h4>
             </p>
 
-            <button id="btndata_abertura" class="btn btn-primary btn-block">
-                Data de Abertura
+            <input type="text" id="inicial_abertura" class="form-control" onfocus="(this.type='date')" onblur="(this.type='text')" placeholder="Data Inicial" />
+            <br />
+            <input type="text" id="final_abertura" class="form-control" onfocus="(this.type='date')" onblur="(this.type='text')" placeholder="Data Final" />
+            <br />
+
+            <button id="btnpesq_data_abertura" class="btn btn-primary btn-block">
+                Pesquisar
             </button>
             <hr />
 
@@ -504,42 +497,6 @@
                     </tr>
                 </tbody>
             </table>
-        </div>
-    </div>
-</div>
-
-<div id="janela_data_abertura" class="modal fade">
-    <div class="modal-dialog modal-sm">
-        <div class="col-md-12">
-            <div class="modal-content">
-
-                <div class="modal-header bg-info" style="text-align:center">
-                    <h4>Data de Abertura</h4>
-                </div>
-
-                <div class="modal-body">
-
-                    <label>Data Inicial:</label>
-                    <input type="date" id="inicial_abertura" class="form-control" />
-                    <br />
-
-                    <label>Data Final:</label>
-                    <input type="date" id="final_abertura" class="form-control" />
-                    <br />
-
-                </div>
-
-                <div class="modal-footer" style="text-align:center">
-
-                    <button id="btnpesq_data_abertura" class="btn btn-info glyphicon glyphicon-ok">
-                        Pesquisar
-                    </button>
-
-                    <button id="btncancelar" class="btn btn-danger glyphicon glyphicon-remove">
-                        Cancelar
-                    </button>
-                </div>
-            </div>
         </div>
     </div>
 </div>

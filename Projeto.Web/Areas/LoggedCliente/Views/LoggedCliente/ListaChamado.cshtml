@@ -57,44 +57,50 @@
 
         function deleteFunction(id) {
 
-            $('#confirm_delete').modal('show');
+            swal({
+                title: "",
+                text: "Excluir Chamado?",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Sim",
+                cancelButtonText: "Cancelar",
+                closeOnConfirm: false,
+                closeOnCancel: true
+            },
+                function (isConfirm) {
+                    if (isConfirm) {
 
-            $("#btndelete_yes").click(
-                function () {
+                        var dados =
+                            {
+                                IdChamado: id
+                            };
 
-                    var dados =
-                        {
-                            IdChamado: id
-                        };
+                        $.ajax(
+                            {
 
-                    $.ajax(
-                        {
+                                type: "POST",
+                                url: "../LoggedCliente/ExcluirChamado",
+                                data: dados,
+                                success: function (msg) {
 
-                            type: "POST",
-                            url: "../LoggedCliente/ExcluirChamado",
-                            data: dados,
-                            success: function (msg) {
+                                    swal("", msg);
 
-                                $('#confirm_delete').modal('hide');
-                                $("#mensagem_pesquisa").html(msg);
+                                    window.setTimeout(
+                                        function () {
+                                            location.reload()
+                                        }, 3000)
+                                },
+                                error: function (e) {
 
-                                window.setTimeout(
-                                    function () {
-                                        location.reload()
-                                    }, 3000)                              
-                            },
-                            error: function (e) {
+                                    $("#mensagem_pesquisa").html(e.status);
+                                }
+                            });
+                    }
 
-                                $("#mensagem_pesquisa").html(e.status);
-                            }
-                        });
                 });
-
-            $("#btndelete_no").click(
-                function () {
-                    $('#confirm_delete').modal('hide');
-                });
-        }
+                
+            }
 
         function editFunction(Id) {
 
@@ -116,14 +122,14 @@
 
                                 $("#id_chamado").val(lista.IdChamado);
                                 $("#assunto_chamado").val(lista.Assunto);
-                                $("#desc_chamado").val(lista.Descricao);                          
+                                $("#desc_chamado").val(lista.Descricao);
 
                             },
                             error: function (e) {
                                 $("#mensagem_pesquisa").html(e.status);
                             }
                         })
-            
+
             $("#btnedicao_chamado").click(
                 function () {
 
@@ -141,7 +147,7 @@
                             success: function (msg) {
 
                                 $('#janela_edicao').modal('hide');
-                                $("#mensagem_pesquisa").html(msg);
+                                swal("", msg);
 
                                 window.setTimeout(
                                     function () {
@@ -218,31 +224,6 @@
                         Concluir
                     </button>
                     <hr />
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<div id="confirm_delete" class="modal fade">
-    <div class="modal-dialog modal-sm">
-        <div class="col-md-12">
-            <div class="modal-content">
-
-                <div class="modal-header bg-info" style="text-align:center">
-                    <h3>Excluir Chamado?</h3>
-                </div>
-
-                <div class="modal-footer" style="text-align:center">
-
-                    <button id="btndelete_yes" class="btn btn-info glyphicon glyphicon-ok">
-                        Sim
-                    </button>
-
-                    <button id="btndelete_no" class="btn btn-danger glyphicon glyphicon-remove">
-                        Não
-                    </button>
                 </div>
             </div>
         </div>

@@ -181,27 +181,22 @@ namespace Projeto.Web.Areas.LoggedCliente.Controllers
 
                 ClienteDal d = new ClienteDal();
 
-                if (model.NewSenha.Equals(model.ConfirmSenha))
+
+                if (d.CheckPassword(Criptografia.GetMD5Hash(model.OldSenha)))
                 {
-                    if (d.CheckPassword(Criptografia.GetMD5Hash(model.OldSenha)))
-                    {
-                        c = d.FindById(c.IdUsuario);
-                        c.Senha = Criptografia.GetMD5Hash(model.NewSenha);
+                    c = d.FindById(c.IdUsuario);
+                    c.Senha = Criptografia.GetMD5Hash(model.NewSenha);
 
-                        d.SaveOrUpdate(c);
+                    d.SaveOrUpdate(c);
 
-                        return Json("Senha atualizada.");
-                    }
-                    else
-                    {
-                        return Json("Senha atual incorreta.");
-                    }
+                    return Json("Senha atualizada.");
                 }
                 else
                 {
-                    return Json("As senhas não correspondem.");
+                    return Json("Senha Atual incorreta.");
                 }
             }
+
             catch (Exception e)
             {
                 return Json(e.Message);

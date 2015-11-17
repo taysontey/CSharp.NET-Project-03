@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "NovaSenha";
     Layout = "~/Areas/LoggedFuncionario/Views/Shared/Layout.cshtml";
 }
@@ -12,31 +11,61 @@
                 $("#btnalterar_senha").click(
                     function () {
 
-                        var Model = {
-                            OldSenha: $("#old_senha").val(),
-                            NewSenha: $("#new_senha").val(),
-                            ConfirmSenha: $("#confirm_senha").val()
-                        };
+                        if (validateFields() == true) {
 
-                        $.ajax(
-                            {
-                                type: "POST",
-                                url: "../LoggedFuncionario/AlterarSenha",
-                                data: Model,
-                                success: function (msg) {
+                            if ($("#new_senha").val() == $("#confirm_senha").val()) {
 
-                                    $("#mensagem_senha").html(msg);
+                                var Model = {
+                                    OldSenha: $("#old_senha").val(),
+                                    NewSenha: $("#new_senha").val(),
+                                    ConfirmSenha: $("#confirm_senha").val()
+                                };
 
-                                    $("#old_senha").val("")
-                                    $("#new_senha").val("")
-                                    $("#confirm_senha").val("")
-                                },
-                                error: function (e) {
-                                    $("#mensagem_senha").html(e.status);
-                                }
-                            })
+                                $.ajax(
+                                    {
+                                        type: "POST",
+                                        url: "../LoggedFuncionario/AlterarSenha",
+                                        data: Model,
+                                        success: function (msg) {
+
+                                            swal("", msg);
+
+                                            $("#old_senha").val("")
+                                            $("#new_senha").val("")
+                                            $("#confirm_senha").val("")
+                                        },
+                                        error: function (e) {
+                                            $("#mensagem_senha").html(e.status);
+                                        }
+                                    })
+                            }
+                            else {
+                                swal("", "As senhas não correspondem", "error");
+                            }
+                        }
+                        else {
+                            swal("", "Preencha os campos corretamente", "error");
+                        }
                     });
             });
+
+        function validateFields() {
+
+            $("#old_error").html("");
+            $("#new_error").html("");
+
+            if ($("#old_senha").val() == null || $("#old_senha").val() == "") {
+                $("#old_error").html("Campo Senha Atual é obrigatório.");
+                return false;
+            }
+            if ($("#new_senha").val() == null || $("#new_senha").val() == "") {
+                $("#new_error").html("Campo Nova Senha é obrigatório.");
+                return false;
+            }
+            else {
+                return true;
+            }
+        }
     </script>
 }
 
@@ -50,9 +79,11 @@
                 <div class="panel-body">
 
                     <input type="password" id="old_senha" class="form-control" placeholder="Senha Atual" />
+                    <span id="old_error" style="color:red;font-style:italic"></span>
                     <br />
 
                     <input type="password" id="new_senha" class="form-control" placeholder="Nova Senha" />
+                    <span id="new_error" style="color:red;font-style:italic"></span>
                     <br />
 
                     <input type="password" id="confirm_senha" class="form-control" placeholder="Digite Novamente" />

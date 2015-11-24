@@ -128,23 +128,19 @@ namespace Projeto.Web.Areas.LoggedFuncionario.Controllers
 
                 ChamadoDal d = new ChamadoDal();
 
-                List<Chamado> lista = d.FindAll();
+                var list = new List<ChamadoModelResultado>();
 
-                List<Chamado> list = new List<Chamado>();
-
-                foreach (Chamado chamado in lista)
+                foreach (Chamado chamado in d.FindAll())
                 {
-                    Chamado ch = new Chamado();
+                    ChamadoModelResultado resultado = new ChamadoModelResultado();
 
-                    ch.IdChamado = chamado.IdChamado;
-                    ch.Assunto = chamado.Assunto;
-                    ch.Situacao = chamado.Situacao;
-                    ch.DataAbertura = chamado.DataAbertura;
+                    resultado.IdChamado = chamado.IdChamado;
+                    resultado.Assunto = chamado.Assunto;
+                    resultado.Situacao = chamado.Situacao;
+                    resultado.DataAbertura = chamado.DataAbertura;
+                    resultado.Cliente_Nome = chamado.Cliente.Nome;
 
-                    ch.Cliente = new Cliente();
-                    ch.Cliente.Nome = chamado.Cliente.Nome;
-
-                    list.Add(ch);
+                    list.Add(resultado);
                 }
 
                 return Json(list);
@@ -167,6 +163,8 @@ namespace Projeto.Web.Areas.LoggedFuncionario.Controllers
 
                 Chamado chamado = d.FindById(model.IdChamado);
 
+                var list = new List<ChamadoModelResultado>();
+
                 if (chamado.Situacao.Equals("Aberto"))
                 {
                     model.Assunto = chamado.Assunto;
@@ -175,7 +173,6 @@ namespace Projeto.Web.Areas.LoggedFuncionario.Controllers
                     model.DataAbertura = chamado.DataAbertura;
                     model.Cliente_Nome = chamado.Cliente.Nome;
 
-                    List<ChamadoModelResultado> list = new List<ChamadoModelResultado>();
                     list.Add(model);
 
                     return Json(list);
@@ -191,11 +188,10 @@ namespace Projeto.Web.Areas.LoggedFuncionario.Controllers
                     model.Funcionario_Nome = chamado.Funcionario.Nome;
                     model.DataFechamento = chamado.DataFechamento.ToString("dd/MM/yyyy");
 
-                    List<ChamadoModelResultado> list = new List<ChamadoModelResultado>();
                     list.Add(model);
 
                     return Json(list);
-                } 
+                }
             }
             catch (Exception e)
             {
@@ -209,11 +205,9 @@ namespace Projeto.Web.Areas.LoggedFuncionario.Controllers
             {
                 ChamadoDal d = new ChamadoDal();
 
-                List<Chamado> lista = d.FindAllBySituacao(model.Situacao);
+                var list = new List<ChamadoModelResultado>();
 
-                List<ChamadoModelResultado> list = new List<ChamadoModelResultado>();
-
-                foreach (Chamado chamado in lista)
+                foreach (Chamado chamado in d.FindAllBySituacao(model.Situacao))
                 {
                     if (chamado.Situacao.Equals("Aberto"))
                     {
@@ -245,6 +239,7 @@ namespace Projeto.Web.Areas.LoggedFuncionario.Controllers
                         list.Add(resultado);
                     }
                 }
+
                 return Json(list);
             }
             catch (Exception e)
@@ -259,11 +254,9 @@ namespace Projeto.Web.Areas.LoggedFuncionario.Controllers
             {
                 ChamadoDal d = new ChamadoDal();
 
-                List<Chamado> lista = d.FindAllByDataAbertura(model.DataInicial, model.DataFinal);
+                var list = new List<ChamadoModelResultado>();
 
-                List<ChamadoModelResultado> list = new List<ChamadoModelResultado>();
-
-                foreach (Chamado chamado in lista)
+                foreach (Chamado chamado in d.FindAllByDataAbertura(model.DataInicial, model.DataFinal))
                 {
                     if (chamado.Situacao.Equals("Aberto"))
                     {
